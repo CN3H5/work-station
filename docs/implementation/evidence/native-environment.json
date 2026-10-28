@@ -1,0 +1,8 @@
+{
+  "msvc": "14.51.36231",
+  "sdk": "10.0.26100.0",
+  "headersPresent": true,
+  "importLibraryPresent": true,
+  "architecture": "x64",
+  "electron": "45.0.0"
+}
