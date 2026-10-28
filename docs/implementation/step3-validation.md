@@ -31,7 +31,7 @@ Windows 11 家庭中文版 x64，10.0.26300；开发Node 24.21.0、npm11.19.0；
 | 默认不联网 | 全新目录，启动、10秒空闲、隐藏后重开 | [network-latest](evidence/network-latest.json)：从进程启动的Chromium NetLog、主进程Node诊断、Windows进程树与TCP查询；结果按记录，不以配置搜索代替 |
 | V-CLIP | 真实Electron加载本地模块；虚构复制、条件清除、相同文本跨进程替换、旧代次、独占占用 | [clipboard-latest](evidence/clipboard-latest.json)：5项技术验证通过；没有实现完整密码簿或30秒业务计时UI |
 | 许可归档 | 对实际安装包执行licenses | [inventory](../../licenses/inventory.json)逐包记录；17个开发依赖只有声明/README，未冒称独立许可文件 |
-| 工作区技能 | skill-creator校验，检查内容是否来自实测 | `.agents/skills/electron-offline-verification`；校验结果见交付检查记录 |
+| 工作区技能 | skill-creator校验，检查内容是否来自实测 | `.agents/skills/electron-offline-verification`；[官方校验结果](evidence/skill-validation.json)通过 |
 | GitHub与秘密检查 | 私有可见性、源码树、文件清单、秘密模式、PR状态 | 以交接中的最终提交/PR和仓库检查为准；真实数据、运行时、密文和构建产物不进入源码树 |
 
 ## 网络观察的覆盖与限制

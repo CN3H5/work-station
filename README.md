@@ -67,4 +67,4 @@ Electron 45 在首次使用时才下载运行时；显式安装命令便于将�
 
 可复用流程位于 [.agents/skills/electron-offline-verification](.agents/skills/electron-offline-verification/SKILL.md)，只涵盖已经实际验证的工程基础方法。
 
-私有仓库：[CN3H5/work-station](https://github.com/CN3H5/work-station)。本阶段不提供正式安装包、数字签名或 Release。
+私有仓库：[CN3H5/work-station](https://github.com/CN3H5/work-station)，交付PR：[安全骨架与验证 #1](https://github.com/CN3H5/work-station/pull/1)，工程源码提交：[8e7f7dc](https://github.com/CN3H5/work-station/commit/8e7f7dcf099cd6d9afe0ce4284d3046c0132fee5)。本阶段不提供正式安装包、数字签名或 Release。
