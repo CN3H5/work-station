@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-28T10:05:02.406Z",
+  "scope": "staged UTF-8 source files except this generated review summary, path allow/block review and four explicit secret patterns; not an exhaustive secret detector",
+  "fileCount": 64,
+  "findings": [],
+  "exclusions": [
+    {
+      "path": ".local/preview/owner.json",
+      "ignored": true
+    },
+    {
+      "path": ".test-runs/example/report.json",
+      "ignored": true
+    },
+    {
+      "path": "node_modules/example/index.js",
+      "ignored": true
+    },
+    {
+      "path": "dist/main/index.js",
+      "ignored": true
+    },
+    {
+      "path": "release/example.exe",
+      "ignored": true
+    },
+    {
+      "path": "backup.wsvault",
+      "ignored": true
+    },
+    {
+      "path": ".env",
+      "ignored": true
+    },
+    {
+      "path": "native/build/clipboard.node",
+      "ignored": true
+    }
+  ],
+  "scannedPaths": [
+    ".agents/skills/electron-offline-verification/SKILL.md",
+    ".agents/skills/electron-offline-verification/agents/openai.yaml",
+    ".gitattributes",
+    ".gitignore",
+    ".node-version",
+    ".npmrc",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "assets/mark.svg",
+    "build/electron-builder.cjs",
+    "build/vite.config.mjs",
+    "docs/implementation/evidence/clipboard-latest.json",
+    "docs/implementation/evidence/dependency-audit.json",
+    "docs/implementation/evidence/native-environment.json",
+    "docs/implementation/evidence/network-latest.json",
+    "docs/implementation/evidence/offline-latest.json",
+    "docs/implementation/evidence/security-latest.json",
+    "docs/implementation/evidence/skill-validation.json",
+    "docs/implementation/evidence/verification-summary.json",
+    "docs/implementation/step3-environment.md",
+    "docs/implementation/step3-handoff.md",
+    "docs/implementation/step3-validation.md",
+    "docs/planning/step1-acceptance.md",
+    "docs/planning/step1-decisions.md",
+    "docs/planning/step1-requirements.md",
+    "docs/planning/step1-roadmap.md",
+    "docs/planning/step2-architecture.md",
+    "docs/planning/step2-behavior-decisions.md",
+    "docs/planning/step2-data-design.md",
+    "docs/planning/step2-ui-flows.md",
+    "docs/planning/step2-validation-handoff.md",
+    "licenses/electron/LICENSE",
+    "licenses/inventory.json",
+    "native/clipboard-peer.cc",
+    "native/clipboard.cc",
+    "native/delay-hook.cc",
+    "package-lock.json",
+    "package.json",
+    "scripts/audit.mjs",
+    "scripts/build.mjs",
+    "scripts/download-native.mjs",
+    "scripts/electron-test.mjs",
+    "scripts/launch.mjs",
+    "scripts/licenses.mjs",
+    "scripts/native-build.mjs",
+    "scripts/verify.mjs",
+    "src/main/application.ts",
+    "src/main/data-root.ts",
+    "src/main/index.ts",
+    "src/main/resources.ts",
+    "src/preload/index.ts",
+    "src/renderer/assets.d.ts",
+    "src/renderer/index.html",
+    "src/renderer/main.ts",
+    "src/renderer/style.css",
+    "src/shared/contract.ts",
+    "src/shared/testing.ts",
+    "src/tests/clipboard-entry.ts",
+    "src/tests/electron-entry.ts",
+    "src/tests/helpers.ts",
+    "src/tests/network-entry.ts",
+    "src/tests/unit/boundaries.test.ts",
+    "tsconfig.json",
+    "tsconfig.renderer.json"
+  ]
+}

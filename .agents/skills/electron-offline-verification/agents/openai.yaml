@@ -1,0 +1,4 @@
+interface:
+  display_name: "Electron 离线基础验证"
+  short_description: "验证 Windows Electron 的真实权限、离线行为与受限剪贴板"
+  default_prompt: "使用 $electron-offline-verification 验证当前 Electron 骨架并记录可复现证据。"

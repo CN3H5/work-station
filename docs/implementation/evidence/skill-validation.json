@@ -1,0 +1,11 @@
+{
+  "date": "2026-10-28",
+  "skill": ".agents/skills/electron-offline-verification",
+  "validator": "skill-creator/scripts/quick_validate.py",
+  "python": "3.12.4",
+  "validationOnlyDependency": "PyYAML 6.0.3 pure Python from yaml/pyyaml@6.0.3",
+  "dependencyLocation": ".cache/skill-validator (not committed or globally installed)",
+  "exitCode": 0,
+  "output": "Skill is valid!",
+  "manualReview": "Instructions cover observed behavior, keep stage scope and distinguish untested OS/packaging conditions. No delegated evaluation: task prohibits subagents."
+}

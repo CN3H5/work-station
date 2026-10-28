@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-28T09:48:53.608Z",
+  "node": "v24.21.0",
+  "lockSha256": "04ecadf288da5c30428b7746c381571fe0251370d1cf35edd0a6b328e042c822",
+  "command": "npm audit --json",
+  "exitCode": 0,
+  "audit": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 1,
+        "dev": 320,
+        "optional": 50,
+        "peer": 13,
+        "peerOptional": 0,
+        "total": 320
+      }
+    }
+  }
+}

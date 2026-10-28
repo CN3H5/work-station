@@ -1,0 +1,37 @@
+{
+  "name": "work-station",
+  "version": "1.0.0",
+  "description": "离线学习工作台：未发布的 Step 3 工程基础",
+  "private": true,
+  "license": "UNLICENSED",
+  "main": "dist/main/index.js",
+  "engines": { "node": "24.21.x", "npm": "11.19.x" },
+  "packageManager": "npm@11.19.0",
+  "scripts": {
+    "dev": "node scripts/launch.mjs dev",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.renderer.json --noEmit",
+    "compile": "tsc",
+    "build": "node scripts/build.mjs",
+    "test": "npm run compile && node --test dist/tests/unit/*.test.js",
+    "test:electron": "node scripts/electron-test.mjs",
+    "test:clipboard": "node scripts/electron-test.mjs clipboard",
+    "test:network": "node scripts/electron-test.mjs network",
+    "test:offline": "node scripts/electron-test.mjs offline",
+    "verify": "node scripts/verify.mjs",
+    "start": "node scripts/launch.mjs production",
+    "start:preview": "node scripts/launch.mjs preview",
+    "licenses": "node scripts/licenses.mjs",
+    "audit:deps": "node scripts/audit.mjs",
+    "native:diagnose": "node scripts/native-build.mjs --diagnose",
+    "native:download": "node scripts/download-native.mjs",
+    "native:build": "node scripts/native-build.mjs",
+    "pack:local": "npm run build && npm run licenses && electron-builder --config build/electron-builder.cjs --dir --win --x64 --publish never"
+  },
+  "devDependencies": {
+    "@types/node": "24.19.2",
+    "electron": "45.0.0",
+    "electron-builder": "26.18.0",
+    "typescript": "6.0.3",
+    "vite": "8.3.5"
+  }
+}
