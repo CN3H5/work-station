@@ -1,0 +1,101 @@
+{
+  "createdAt": "2026-10-29T12:25:33.000Z",
+  "runtime": {
+    "node": "24.22.0",
+    "acorn": "8.18.0",
+    "ada": "4.0.0",
+    "amaro": "1.1.11",
+    "ares": "1.34.8",
+    "brotli": "1.2.0",
+    "cldr": "48.0",
+    "icu": "78.2",
+    "llhttp": "9.4.3",
+    "merve": "1.2.2",
+    "modules": "150",
+    "napi": "10",
+    "nbytes": "0.1.4",
+    "ncrypto": "0.0.1",
+    "nghttp2": "1.70.0",
+    "nghttp3": "",
+    "ngtcp2": "",
+    "openssl": "0.0.0",
+    "simdjson": "4.6.11",
+    "simdutf": "7.7.0",
+    "sqlite": "3.53.4",
+    "tz": "2026e",
+    "undici": "7.29.1",
+    "unicode": "17.0",
+    "uv": "1.52.1",
+    "uvwasi": "0.0.23",
+    "v8": "15.6.75.19-electron.0",
+    "zlib": "1.3.2.1-motley",
+    "zstd": "1.6.0",
+    "electron": "45.0.0",
+    "chrome": "156.0.8078.48"
+  },
+  "mode": "online startup + hide/reopen + 30-minute observation",
+  "results": [
+    {
+      "name": "cold interface and resources available",
+      "status": "passed"
+    },
+    {
+      "name": "main Node network events",
+      "status": "passed"
+    },
+    {
+      "name": "Chromium external sockets",
+      "status": "passed"
+    },
+    {
+      "name": "Windows descendant process/TCP query",
+      "status": "passed"
+    },
+    {
+      "name": "Chromium log from process launch",
+      "status": "passed"
+    }
+  ],
+  "nodeEvents": [],
+  "chromeEvents": {},
+  "processCoverage": {
+    "uniquePids": 5,
+    "types": [
+      "Browser",
+      "Utility",
+      "Tab",
+      "GPU"
+    ],
+    "samples": 7200
+  },
+  "osSnapshot": {
+    "exitCode": 0,
+    "stdout": "{\"processNames\":[\"electron.exe\",\"electron.exe\",\"electron.exe\",\"electron.exe\",\"powershell.exe\",\"conhost.exe\"],\"connections\":[],\"processCount\":6}",
+    "error": ""
+  },
+  "limits": [
+    "Chromium offline emulation does not disable the Windows network adapter.",
+    "Duration is reported by processCoverage samples at 250 ms; short runs do not establish 30-minute tray behavior.",
+    "TCP snapshot can miss short-lived sockets; Chromium netlog and main-process Node diagnostics supplement it.",
+    "No remote utilityProcess or child Node runtime is part of the skeleton.",
+    "Test runner initiates hide/reopen, not actual tray menu input. The hidden period starts about 15 seconds after window startup.",
+    "Process lifetime is measured from OS process creation to report creation, including startup and final OS probe.",
+    "The in-main OS probe creates powershell/conhost instrumentation children.",
+    "Supplemental TCP/UDP endpoint polling starts after startup and cannot capture all transient traffic."
+  ],
+  "earlyStartup": {
+    "socketEvents": 0,
+    "httpHostnames": []
+  },
+  "sourceSha256": "ee986cde981ddba438143a334e8b7358e94772282e7e6411d0766698b027cf1b",
+  "processStartedAt": "2026-10-29T11:54:02.3062470Z",
+  "processLifetimeThroughReportMs": 1890694,
+  "supplement": {
+    "samples": 47,
+    "tcpObservations": 0,
+    "udpEndpointObservations": 0,
+    "firstAt": "2026-10-29T12:01:36.3547166Z",
+    "lastAt": "2026-10-29T12:25:30.3609680Z",
+    "limits": "Supplement started after startup; periodic TCP and UDP endpoint snapshots do not capture all packets"
+  }
+}

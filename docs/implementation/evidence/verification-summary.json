@@ -1,5 +1,5 @@
 {
-  "startedAt": "2026-10-29T11:37:51.665Z",
+  "startedAt": "2026-10-29T11:51:22.507Z",
   "node": "v24.21.0",
   "os": "Windows 11 Home China",
   "release": "10.0.26300",
@@ -8,64 +8,70 @@
     {
       "command": "npm run typecheck",
       "exitCode": 0,
-      "durationMs": 5444,
+      "durationMs": 5776,
       "status": "passed"
     },
     {
       "command": "npm run test",
       "exitCode": 0,
-      "durationMs": 36556,
+      "durationMs": 37030,
       "status": "passed"
     },
     {
       "command": "npm run test:storage",
       "exitCode": 0,
-      "durationMs": 36997,
+      "durationMs": 36711,
       "status": "passed"
     },
     {
       "command": "npm run build",
       "exitCode": 0,
-      "durationMs": 4662,
+      "durationMs": 5066,
       "status": "passed"
     },
     {
       "command": "npm run native:build",
       "exitCode": 0,
-      "durationMs": 3680,
+      "durationMs": 3437,
       "status": "passed"
     },
     {
       "command": "npm run test:electron",
       "exitCode": 0,
-      "durationMs": 6659,
+      "durationMs": 7078,
       "status": "passed"
     },
     {
       "command": "npm run test:clipboard",
       "exitCode": 0,
-      "durationMs": 4366,
+      "durationMs": 4510,
       "status": "passed"
     },
     {
       "command": "npm run test:network",
       "exitCode": 0,
-      "durationMs": 16296,
+      "durationMs": 16949,
       "status": "passed"
     },
     {
       "command": "npm run test:offline",
       "exitCode": 0,
-      "durationMs": 13193,
+      "durationMs": 13220,
       "status": "passed"
     },
     {
       "command": "npm run test:storage-ui-evidence",
-      "exitCode": 1,
-      "durationMs": 974,
-      "status": "failed"
+      "exitCode": 0,
+      "durationMs": 1057,
+      "status": "passed"
+    },
+    {
+      "command": "npm run test:storage-perf",
+      "exitCode": 0,
+      "durationMs": 190030,
+      "status": "passed"
     }
   ],
-  "status": "failed",
-  "finishedAt": "2026-10-29T11:40:00.637Z"
+  "status": "passed",
+  "finishedAt": "2026-10-29T11:56:43.496Z"
 }
