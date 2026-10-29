@@ -4,7 +4,13 @@
 #include <wchar.h>
 int wmain(int argc, wchar_t** argv) {
   HWND owner = CreateWindowExW(0,L"STATIC",L"WorkStationFictionalClipboardPeer",0,0,0,0,0,HWND_MESSAGE,nullptr,GetModuleHandleW(nullptr),nullptr);
-  if (!owner || !OpenClipboard(owner)) return 2;
+  if (!owner) return 2;
+  bool opened = false;
+  for (int attempt = 0; attempt < 20; ++attempt) {
+    if (OpenClipboard(owner)) { opened = true; break; }
+    Sleep(50);
+  }
+  if (!opened) { DestroyWindow(owner); return 2; }
   if (argc > 1 && wcscmp(argv[1], L"hold") == 0) {
     puts("locked"); fflush(stdout); Sleep(1800); CloseClipboard(); DestroyWindow(owner); return 0;
   }

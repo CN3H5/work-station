@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit && tsc -p tsconfig.renderer.json --noEmit",
     "compile": "tsc",
     "build": "node scripts/build.mjs",
-    "test": "npm run compile && node --test dist/tests/unit/*.test.js",
+    "test": "npm run compile && node --test dist/tests/unit/*.test.js scripts/*.test.mjs",
     "test:electron": "node scripts/electron-test.mjs",
     "test:clipboard": "node scripts/electron-test.mjs clipboard",
     "test:network": "node scripts/electron-test.mjs network",
