@@ -27,7 +27,7 @@ function showWarning():void { warning.textContent=[storage?.softBudget?'普通�
 async function initialize():Promise<void> {
   const result=await window.workStation.storage({action:'state'});if(!result.ok){saveState.textContent=result.userMessage;return;} storage=result.data as StorageState;
   privacy.checked=storage.privacyNotification;privacy.disabled=storage.mode!=='ready';
-  saver=new Autosave(privacy.checked,storage.revision,async(value,revision,id)=>{const r=await window.workStation.storage({action:'savePreference',baseRevision:revision,clientMutationId:id,privacyNotification:value});if(r.ok){storage=r.data as StorageState;showWarning();return {ok:true,revision:storage.revision};}return {ok:false,code:r.code};},showState);
+  saver=new Autosave(privacy.checked,storage.revision,async(value,revision,id)=>{const r=await window.workStation.storage({action:'savePreference',baseRevision:revision,clientMutationId:id,privacyNotification:value});if(r.ok){const latest=await window.workStation.storage({action:'state'});storage=(latest.ok?latest.data:r.data) as StorageState;showWarning();return {ok:true,revision:r.revision};}return {ok:false,code:r.code};},showState);
   if(storage.mode!=='ready')saver.state='recovery';showState();showWarning();
 }
 privacy.addEventListener('change',()=>saver?.edit(privacy.checked));

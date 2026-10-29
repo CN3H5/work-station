@@ -1,9 +1,10 @@
 import { createHash, randomUUID } from 'node:crypto';
+import type { StorageState } from '../shared/storage-contract';
 
 export type Json = null | boolean | number | string | Json[] | { [key: string]: Json };
 export type Entity = { [key: string]: Json };
 export const collections = ['notes','memos','tags','categories','rules','ruleRevisions','reminderPolicies','tasks','occurrenceTombstones','scheduleCursors','semesters','courses','courseSlots'] as const;
-export interface Payload { business: Record<string, Json>; local: { reminderEvents: Entity[]; reminderBatches: Entity[]; reminderAliases: Entity[]; imageAssets: Entity[] }; mutations: { id: string; hash: string; revision: number }[] }
+export interface Payload { business: Record<string, Json>; local: { reminderEvents: Entity[]; reminderBatches: Entity[]; reminderAliases: Entity[]; imageAssets: Entity[] }; mutations: { id: string; hash: string; revision: number; result?: StorageState }[] }
 export interface Ordinary { kind: 'work-station-ordinary'; schemaVersion: number; datasetId: string; revision: number; savedAt: string; payload: Payload; contentHash: string }
 export class StoreError extends Error { constructor(public code: string) { super(code); } }
 export function fail(code = 'VALIDATION'): never { throw new StoreError(code); }
@@ -18,7 +19,7 @@ export const hash = (value: unknown): string => createHash('sha256').update(cano
 // Parse with a bounded recursive descent: JSON.parse alone silently accepts duplicate keys.
 export function parseStrict(text: string): unknown {
   let i = 0;
-  const ws = (): void => { while (/\s/.test(text[i] ?? '') && i < text.length) i++; };
+  const ws = (): void => { while (/[ \t\r\n]/.test(text[i] ?? '') && i < text.length) i++; };
   function value(depth: number): unknown {
     if (depth > 64) fail(); ws(); const c = text[i];
     if (c === '{') { i++; ws(); const out: Record<string, unknown> = {}; const seen = new Set<string>();
@@ -60,20 +61,25 @@ export function emptyPayload(): Payload {
 }
 export function snapshotProjection(payload: Payload): Record<string, Json> {
   const strip = (v: Json): Json => Array.isArray(v) ? v.map(strip) : v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).filter(([k]) => !['createdAt','updatedAt','entityRevision','processedThroughLocal','skippedRanges'].includes(k)).map(([k,x])=>[k,strip(x)])) : v;
-  return strip(payload.business) as Record<string, Json>;
+  const result=strip(payload.business) as Record<string,Json>;for(const type of collections)if(Array.isArray(result[type]))(result[type] as Entity[]).sort((a,b)=>String(a.id).localeCompare(String(b.id)));return result;
 }
 export const snapshotHash = (payload: Payload): string => hash(snapshotProjection(payload));
+export const resourceProjection=(payload:Payload):Entity[]=>structuredClone(payload.local.imageAssets);
+export const notificationProjection=(payload:Payload):Omit<Payload['local'],'imageAssets'>=>{const {imageAssets,...ledger}=structuredClone(payload.local);return ledger;};
+export const portableProjection=(payload:Payload):Record<string,Json>=>structuredClone(payload.business);
 export function envelope(payload: Payload, revision: number, now: string, datasetId = randomUUID() as string): Ordinary {
-  return { kind: 'work-station-ordinary', schemaVersion: 1, datasetId, revision, savedAt: now, payload, contentHash: hash(payload) };
+  const normalized=structuredClone(payload);for(const type of collections)(normalized.business[type] as Entity[]).sort((a,b)=>String(a.id).localeCompare(String(b.id)));for(const rows of Object.values(normalized.local))rows.sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+  return { kind: 'work-station-ordinary', schemaVersion: 1, datasetId, revision, savedAt: now, payload:normalized, contentHash: hash(normalized) };
 }
 export function validatePayload(payload: unknown): asserts payload is Payload {
   keys(payload,['business','local','mutations']); keys(payload.business,[...collections,'appearance','preferences']); keys(payload.local,['reminderEvents','reminderBatches','reminderAliases','imageAssets']);
-  const b = payload.business; const l = payload.local; const ids = new Set<string>(); const byType: Record<string, Set<string>> = {}; let count = 0;
+  const b = payload.business; const l = payload.local; const ids = new Set<string>(); const byType: Record<string, Set<string>> = {};const indexes:Record<string,Map<string,Record<string,unknown>>>={}; let count = 0;
   for (const [type, [required, optional]] of Object.entries(spec)) {
-    const rows = (Object.hasOwn(b,type) ? b[type] : l[type]); if (!Array.isArray(rows)) fail(); byType[type] = new Set();
+    const rows = (Object.hasOwn(b,type) ? b[type] : l[type]); if (!Array.isArray(rows)) fail(); byType[type] = new Set();indexes[type]=new Map();
     for (const row of rows as unknown[]) {
       keys(row,['id','createdAt','updatedAt','entityRevision',...required.split(' ').filter(Boolean)],optional.split(' ').filter(Boolean));
       if (!uuid(row.id) || ids.has(String(row.id)) || !utc(row.createdAt) || !utc(row.updatedAt) || !integer(row.entityRevision)) fail(); ids.add(String(row.id)); byType[type]!.add(String(row.id)); count++;
+      indexes[type]!.set(String(row.id),row);
       for (const [k,v] of Object.entries(row)) {
         if (['id','createdAt','updatedAt','entityRevision'].includes(k)) continue;
         if (['active','reminderSuppressed'].includes(k)) { if (typeof v !== 'boolean') fail(); }
@@ -106,17 +112,19 @@ export function validatePayload(payload: unknown): asserts payload is Payload {
   for (const type of Object.keys(spec)) for (const row of ((b[type] ?? l[type]) as Entity[])) {
     for (const [field,target] of Object.entries(refs)) if (row[field] != null && !byType[target]!.has(String(row[field]))) { if(type==='reminderEvents'&&['taskId','batchId'].includes(field)&&['delivered','suppressed'].includes(String(row.status)))continue;fail(); }
     if (Array.isArray(row.tagIds) && row.tagIds.some(id=>!byType.tags!.has(String(id)))) fail();
-    if (type === 'tasks' && row.ruleRevisionId) { const rev=(b.ruleRevisions as Entity[]).find(r=>r.id===row.ruleRevisionId)!; if (rev.ruleId!==row.ruleId) fail(); }
-    if (type === 'rules') { if ((b.ruleRevisions as Entity[]).find(r=>r.id===row.currentRevisionId)?.ruleId!==row.id || (b.reminderPolicies as Entity[]).find(r=>r.id===row.reminderPolicyId)?.ruleId!==row.id) fail(); }
-    if (type === 'courses' && Number(row.weekEnd)>Number((b.semesters as Entity[]).find(r=>r.id===row.semesterId)?.weeks)) fail();
+    if (type === 'tasks' && row.ruleRevisionId) { const rev=indexes.ruleRevisions!.get(String(row.ruleRevisionId))!; if (rev.ruleId!==row.ruleId) fail(); }
+    if (type === 'rules') { if (indexes.ruleRevisions!.get(String(row.currentRevisionId))?.ruleId!==row.id || indexes.reminderPolicies!.get(String(row.reminderPolicyId))?.ruleId!==row.id) fail(); }
+    if (type === 'courses' && Number(row.weekEnd)>Number(indexes.semesters!.get(String(row.semesterId))?.weeks)) fail();
+    if(type==='reminderBatches'&&(row.memberEventIds as Json[]).some(id=>!(l.reminderEvents as Entity[]).some(e=>e.eventId===id)))fail();
   }
   const occurrence = new Set<string>(); for (const row of [...b.tasks as Entity[], ...b.occurrenceTombstones as Entity[]]) if (row.occurrenceKey) { if (occurrence.has(String(row.occurrenceKey))) fail(); occurrence.add(String(row.occurrenceKey)); }
+  const eventIds=new Set<string>();for(const event of l.reminderEvents as Entity[]){if(!String(event.eventId)||eventIds.has(String(event.eventId)))fail();eventIds.add(String(event.eventId));}
   const aliases = new Map((l.reminderAliases as Entity[]).map(r=>[String(r.oldOccurrenceKey),String(r.newOccurrenceKey)])); for (const key of aliases.keys()) { const seen=new Set<string>(); let x: string|undefined=key; while(x && aliases.has(x)) { if(seen.has(x)) fail(); seen.add(x); x=aliases.get(x); } }
   keys(b.preferences,['hotkey','launchAtLogin','privacyNotification','reminderPause','vaultIdleMinutes','revealSeconds']);
   if (typeof b.preferences.hotkey !== 'string' || b.preferences.hotkey.length>100 || ['launchAtLogin','privacyNotification','reminderPause'].some(k=>typeof (b.preferences as Record<string,unknown>)[k] !== 'boolean') || !integer(b.preferences.vaultIdleMinutes,1,120) || !integer(b.preferences.revealSeconds,1,120)) fail();
   keys(b.appearance,['mode','colors','backgroundKind','overlay','fontScale','reduceMotion'],['imageHash']); object(b.appearance.colors);
   if (!['system','light','dark'].includes(String(b.appearance.mode)) || !['color','image'].includes(String(b.appearance.backgroundKind)) || typeof b.appearance.reduceMotion!=='boolean' || typeof b.appearance.overlay!=='number' || b.appearance.overlay<0 || b.appearance.overlay>1 || typeof b.appearance.fontScale!=='number' || b.appearance.fontScale<0.5 || b.appearance.fontScale>3 || (b.appearance.imageHash!==undefined && !/^[a-f0-9]{64}$/.test(String(b.appearance.imageHash))) || Object.values(b.appearance.colors).some(v=>typeof v!=='string' || !/^#[a-f0-9]{6}$/i.test(v))) fail();
-  if (!Array.isArray(payload.mutations) || payload.mutations.length>256) fail(); const mutations=new Set<string>(); for(const m of payload.mutations as unknown[]) { keys(m,['id','hash','revision']); if(!uuid(m.id)||mutations.has(String(m.id))||!/^[a-f0-9]{64}$/.test(String(m.hash))||!integer(m.revision))fail();mutations.add(String(m.id)); }
+  if (!Array.isArray(payload.mutations) || payload.mutations.length>256) fail(); const mutations=new Set<string>(); for(const m of payload.mutations as unknown[]) { keys(m,['id','hash','revision'],['result']); if(!uuid(m.id)||mutations.has(String(m.id))||!/^[a-f0-9]{64}$/.test(String(m.hash))||!integer(m.revision))fail();if(m.result!==undefined){keys(m.result,['mode','revision','privacyNotification','softBudget','snapshotWarning','cleanupPending']);if(m.result.mode!=='ready'||m.result.revision!==m.revision||['privacyNotification','softBudget','snapshotWarning','cleanupPending'].some(k=>typeof (m.result as Record<string,unknown>)[k]!=='boolean'))fail();}mutations.add(String(m.id)); }
 }
 export function decode(text: string): Ordinary {
   const v = parseStrict(text); keys(v,['kind','schemaVersion','datasetId','revision','savedAt','payload','contentHash']);

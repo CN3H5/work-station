@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain, Menu, protocol, session, screen, dialog } from 'electron';
 import { randomUUID } from 'node:crypto';
-import { OrdinaryStore } from './ordinary-store';
+import { OrdinaryStore, type StoreOptions } from './ordinary-store';
 import { keys } from './ordinary-model';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -8,13 +8,14 @@ import { HEALTH_CHANNEL, authorized, validHealthRequest, type HealthResult } fro
 import { prepareDataRoot, acquireRootLock, rejectLinks } from './data-root';
 import { CSP, resourceResponse, type ResourceManifest } from './resources';
 const productVersion = (JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf8')) as { version: string }).version;
-export interface ApplicationConfig { root: string; mode: 'production' | 'development' | 'test' | 'preview'; devURL?: string; beforeWindow?: () => Promise<void> }
+export interface ApplicationConfig { root: string; mode: 'production' | 'development' | 'test' | 'preview'; devURL?: string; beforeWindow?: () => Promise<void>; storeOptions?: StoreOptions }
 export interface RunningApplication { window: BrowserWindow; documentURL: string; secondInstances: () => number }
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true } }]);
 app.commandLine.appendSwitch('disable-spell-checking');
 app.commandLine.appendSwitch('disable-background-networking');
 app.commandLine.appendSwitch('lang', 'zh-CN');
 export async function startApplication(config: ApplicationConfig): Promise<RunningApplication | null> {
+  if(config.storeOptions&&config.mode!=='test')throw new Error('TEST_OPTIONS_FORBIDDEN');
   if (config.mode !== 'development') for (const name of ['remote-debugging-port', 'remote-debugging-pipe', 'inspect', 'inspect-brk']) app.commandLine.removeSwitch(name);
   if (config.devURL && (app.isPackaged || config.mode !== 'development' || config.devURL !== 'http://127.0.0.1:5173/')) throw new Error('INVALID_DEV_SERVER');
   app.setName('Work Station');
@@ -35,7 +36,7 @@ export async function startApplication(config: ApplicationConfig): Promise<Runni
   app.on('second-instance', () => { secondCount++; if (window) { if (window.isMinimized()) window.restore(); window.show(); window.focus(); } });
   app.on('window-all-closed', () => app.quit());
   await app.whenReady();
-  const store = new OrdinaryStore(config.root);
+  const store = new OrdinaryStore(config.root,config.storeOptions);
   await store.open();
   Menu.setApplicationMenu(null);
   const appSession = session.defaultSession;
