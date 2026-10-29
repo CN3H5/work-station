@@ -40,12 +40,21 @@ void (async () => {
   });
   await check('renderer cannot access Node filesystem or generic IPC', async () => {
     const value = await wc.executeJavaScript('({require:typeof require, process:typeof process, bridge:Object.keys(window.workStation)})');
-    assert.equal(value.require, 'undefined'); assert.equal(value.process, 'undefined'); assert.deepEqual(value.bridge, ['getHealth']);
+    assert.equal(value.require, 'undefined'); assert.equal(value.process, 'undefined'); assert.deepEqual(value.bridge, ['getHealth','storage','onFlush']);
   });
   await check('untrusted window cannot call health capability', async () => {
     const rogue = new BrowserWindow({ show: false, webPreferences: { preload: path.join(__dirname, '../preload/index.js'), sandbox: true, contextIsolation: true, nodeIntegration: false } });
     try { await rogue.loadURL('app://workstation/index.html'); const response = await rogue.webContents.executeJavaScript('window.workStation.getHealth({})'); assert.equal(response.code, 'UNAUTHORIZED'); }
     finally { rogue.destroy(); }
+  });
+  await check('storage restricted preference persists through actual IPC',async()=>{
+    const state=await wc.executeJavaScript('window.workStation.storage({action:"state"})');assert.equal(state.ok,true);
+    const saved=await wc.executeJavaScript(`window.workStation.storage({action:"savePreference",baseRevision:${state.revision},clientMutationId:crypto.randomUUID(),privacyNotification:false})`);assert.equal(saved.ok,true);assert.equal(saved.data.privacyNotification,false);
+    assert.equal(JSON.parse(fs.readFileSync(path.join(root,'ordinary/current.json'),'utf8')).revision,saved.revision);
+  });
+  await check('storage malicious parameters rejected and unauthorized window denied',async()=>{
+    for(const expression of ['null','{action:"savePreference",payload:{}}','{action:"restore",id:"../../vault",baseRevision:0,confirmed:true}','{action:"state",path:"C:/x"}'])assert.equal((await wc.executeJavaScript(`window.workStation.storage(${expression})`)).ok,false);
+    const rogue=new BrowserWindow({show:false,webPreferences:{preload:path.join(__dirname,'../preload/index.js'),sandbox:true,contextIsolation:true,nodeIntegration:false}});try{await rogue.loadURL('app://workstation/index.html');assert.equal((await rogue.webContents.executeJavaScript('window.workStation.storage({action:"state"})')).code,'UNAUTHORIZED');}finally{rogue.destroy();}
   });
   await check('window.open is denied', async () => {
     const count = BrowserWindow.getAllWindows().length;

@@ -1,7 +1,12 @@
 export const HEALTH_CHANNEL = 'workstation:health';
 export type Failure = { ok: false; code: 'UNAUTHORIZED' | 'VALIDATION'; userMessage: string; retryable: false };
 export type HealthResult = { ok: true; data: { product: 'Work Station'; version: string; stage: '工程基础'; mode: 'production' | 'development' | 'test' | 'preview' }; revision: 0 } | Failure;
-export interface WorkStationAPI { getHealth(request: Record<string, never>): Promise<HealthResult> }
+import type { StorageState, SnapshotItem, StoreResult } from '../shared/storage-contract';
+export interface WorkStationAPI {
+  getHealth(request: Record<string, never>): Promise<HealthResult>;
+  storage(request: unknown): Promise<StoreResult<StorageState | SnapshotItem[]>>;
+  onFlush(callback: () => Promise<boolean>): void;
+}
 
 export function validHealthRequest(value: unknown): value is Record<string, never> {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
@@ -12,3 +17,4 @@ export interface Caller { senderId: number; frameIsMain: boolean; frameURL: stri
 export function authorized(caller: Caller, windowId: number, documentURL: string): boolean {
   return caller.senderId === windowId && caller.frameIsMain && caller.frameURL === documentURL;
 }
+

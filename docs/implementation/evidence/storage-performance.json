@@ -1,0 +1,194 @@
+{
+  "createdAt": "2026-10-29T05:53:59.780Z",
+  "runtime": "v24.21.0",
+  "repetitions": 5,
+  "units": "milliseconds; rss bytes (process cumulative, not isolated peak)",
+  "output": [
+    {
+      "name": "10k",
+      "samples": [
+        {
+          "validation": 95.7921,
+          "saveIncludingDailySnapshot": 1317.0979000000002,
+          "open": 205.3880999999999,
+          "snapshotReuse": 309.4015999999999,
+          "rss": 224636928
+        },
+        {
+          "validation": 62.44869999999992,
+          "saveIncludingDailySnapshot": 1151.3129,
+          "open": 281.91799999999967,
+          "snapshotReuse": 433.1106,
+          "rss": 246812672
+        },
+        {
+          "validation": 81.00199999999995,
+          "saveIncludingDailySnapshot": 1234.1045000000004,
+          "open": 264.66600000000017,
+          "snapshotReuse": 372.82800000000043,
+          "rss": 248053760
+        },
+        {
+          "validation": 67.59959999999955,
+          "saveIncludingDailySnapshot": 1130.9177,
+          "open": 262.3818000000001,
+          "snapshotReuse": 409.4958999999999,
+          "rss": 245579776
+        },
+        {
+          "validation": 117.6172000000006,
+          "saveIncludingDailySnapshot": 1275.2792999999992,
+          "open": 221.74679999999898,
+          "snapshotReuse": 287.97649999999885,
+          "rss": 284889088
+        }
+      ],
+      "percentiles": {
+        "validation": {
+          "p50": 81.00199999999995,
+          "p95": 117.6172000000006
+        },
+        "saveIncludingDailySnapshot": {
+          "p50": 1234.1045000000004,
+          "p95": 1317.0979000000002
+        },
+        "open": {
+          "p50": 262.3818000000001,
+          "p95": 281.91799999999967
+        },
+        "snapshotReuse": {
+          "p50": 372.82800000000043,
+          "p95": 433.1106
+        },
+        "rss": {
+          "p50": 246812672,
+          "p95": 284889088
+        }
+      }
+    },
+    {
+      "name": "100k",
+      "samples": [
+        {
+          "validation": 734.1568000000007,
+          "saveIncludingDailySnapshot": 10833.728599999999,
+          "open": 2028.1486000000004,
+          "snapshotReuse": 2787.487699999998,
+          "rss": 707940352
+        },
+        {
+          "validation": 804.6067000000003,
+          "saveIncludingDailySnapshot": 10465.2267,
+          "open": 1950.6889999999985,
+          "snapshotReuse": 2686.422999999995,
+          "rss": 738603008
+        },
+        {
+          "validation": 691.0340999999971,
+          "saveIncludingDailySnapshot": 10515.7169,
+          "open": 1969.2730999999985,
+          "snapshotReuse": 2634.722200000004,
+          "rss": 776978432
+        },
+        {
+          "validation": 726.7805000000008,
+          "saveIncludingDailySnapshot": 10378.40630000001,
+          "open": 1882.7569999999978,
+          "snapshotReuse": 2756.338699999993,
+          "rss": 702398464
+        },
+        {
+          "validation": 737.8111000000063,
+          "saveIncludingDailySnapshot": 10339.5922,
+          "open": 1920.9812999999995,
+          "snapshotReuse": 2749.7878000000055,
+          "rss": 654835712
+        }
+      ],
+      "percentiles": {
+        "validation": {
+          "p50": 734.1568000000007,
+          "p95": 804.6067000000003
+        },
+        "saveIncludingDailySnapshot": {
+          "p50": 10465.2267,
+          "p95": 10833.728599999999
+        },
+        "open": {
+          "p50": 1950.6889999999985,
+          "p95": 2028.1486000000004
+        },
+        "snapshotReuse": {
+          "p50": 2749.7878000000055,
+          "p95": 2787.487699999998
+        },
+        "rss": {
+          "p50": 707940352,
+          "p95": 776978432
+        }
+      }
+    },
+    {
+      "name": "note-2MiB",
+      "samples": [
+        {
+          "validation": 1.805500000002212,
+          "saveIncludingDailySnapshot": 239.09399999999732,
+          "open": 48.22179999999935,
+          "snapshotReuse": 51.704899999997,
+          "rss": 706494464
+        },
+        {
+          "validation": 1.822199999995064,
+          "saveIncludingDailySnapshot": 228.62890000001062,
+          "open": 46.90469999999914,
+          "snapshotReuse": 52.07839999999851,
+          "rss": 742318080
+        },
+        {
+          "validation": 1.642199999987497,
+          "saveIncludingDailySnapshot": 219.68189999999595,
+          "open": 63.83650000000489,
+          "snapshotReuse": 54.63869999999588,
+          "rss": 707104768
+        },
+        {
+          "validation": 1.7661000000080094,
+          "saveIncludingDailySnapshot": 246.82390000000305,
+          "open": 41.222200000003795,
+          "snapshotReuse": 61.54529999999795,
+          "rss": 613105664
+        },
+        {
+          "validation": 1.4738000000070315,
+          "saveIncludingDailySnapshot": 227.23369999999704,
+          "open": 52.349600000001374,
+          "snapshotReuse": 55.8755000000092,
+          "rss": 606470144
+        }
+      ],
+      "percentiles": {
+        "validation": {
+          "p50": 1.7661000000080094,
+          "p95": 1.822199999995064
+        },
+        "saveIncludingDailySnapshot": {
+          "p50": 228.62890000001062,
+          "p95": 246.82390000000305
+        },
+        "open": {
+          "p50": 48.22179999999935,
+          "p95": 63.83650000000489
+        },
+        "snapshotReuse": {
+          "p50": 54.63869999999588,
+          "p95": 61.54529999999795
+        },
+        "rss": {
+          "p50": 706494464,
+          "p95": 742318080
+        }
+      }
+    }
+  ]
+}

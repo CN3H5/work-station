@@ -1,4 +1,7 @@
-import { app, BrowserWindow, ipcMain, Menu, protocol, session, screen } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, protocol, session, screen, dialog } from 'electron';
+import { randomUUID } from 'node:crypto';
+import { OrdinaryStore } from './ordinary-store';
+import { keys } from './ordinary-model';
 import fs from 'node:fs';
 import path from 'node:path';
 import { HEALTH_CHANNEL, authorized, validHealthRequest, type HealthResult } from '../shared/contract';
@@ -32,6 +35,8 @@ export async function startApplication(config: ApplicationConfig): Promise<Runni
   app.on('second-instance', () => { secondCount++; if (window) { if (window.isMinimized()) window.restore(); window.show(); window.focus(); } });
   app.on('window-all-closed', () => app.quit());
   await app.whenReady();
+  const store = new OrdinaryStore(config.root);
+  await store.open();
   Menu.setApplicationMenu(null);
   const appSession = session.defaultSession;
   appSession.setSpellCheckerLanguages([]);
@@ -62,6 +67,31 @@ export async function startApplication(config: ApplicationConfig): Promise<Runni
   });
   const documentURL = config.devURL ?? 'app://workstation/index.html';
   const contents = window.webContents;
+  ipcMain.handle('workstation:storage', async (event, request: unknown) => {
+    if (!authorized({senderId:event.sender.id,frameIsMain:event.senderFrame===contents.mainFrame,frameURL:event.senderFrame?.url??''},contents.id,documentURL))return {ok:false,code:'UNAUTHORIZED',userMessage:'此窗口没有调用权限。',retryable:false};
+    try {
+      if (!request || typeof request!=='object') throw new Error();
+      const r=request as Record<string,unknown>;
+      if(r.action==='state') {keys(r,['action']);return {ok:true,data:store.state(),revision:store.state().revision};}
+      if(r.action==='savePreference') { keys(r,['action','baseRevision','clientMutationId','privacyNotification']); const {action,...input}=r;return await store.savePreference(input); }
+      if(r.action==='snapshots') {keys(r,['action']);return {ok:true,data:await store.recoveryCandidates(),revision:store.state().revision};}
+      if(r.action==='retrySnapshot') {keys(r,['action']);return await store.retrySnapshot();}
+      if(r.action==='restore') {keys(r,['action','id','baseRevision','confirmed']); if(typeof r.id!=='string'||!Number.isSafeInteger(r.baseRevision)||r.confirmed!==true)throw new Error();return await store.restore(r.id,Number(r.baseRevision),true);}
+      throw new Error();
+    } catch {return {ok:false,code:'VALIDATION',userMessage:'请求参数无效。',retryable:false};}
+  });
+  let closing=false; let waiting=false;
+  const flushBeforeClose=async ():Promise<void>=>{
+    if(waiting)return;waiting=true;
+    const token=randomUUID();
+    const ok=await new Promise<boolean>(resolve=>{const timeout=setTimeout(()=>{ipcMain.removeListener('workstation:flushed',listener);resolve(false);},10000);const listener=(event:Electron.IpcMainEvent,r:unknown):void=>{if(event.sender!==contents||event.senderFrame!==contents.mainFrame)return;try{keys(r,['token','ok']);if(r.token!==token||typeof r.ok!=='boolean')return;clearTimeout(timeout);ipcMain.removeListener('workstation:flushed',listener);resolve(r.ok);}catch{}};ipcMain.on('workstation:flushed',listener);contents.send('workstation:flush',token);});
+    await store.flush();waiting=false;
+    if(ok){closing=true;app.quit();return;}
+    const choice=await dialog.showMessageBox(window!,{type:'warning',message:'保存未完成',detail:'可重试保存、返回应用保留编辑，或确认放弃尚未保存的编辑并退出。',buttons:['重试','返回应用','放弃编辑并退出'],defaultId:1,cancelId:1});
+    if(choice.response===0)void flushBeforeClose();else if(choice.response===2){closing=true;app.quit();}
+  };
+  window.on('close',event=>{if(!closing){event.preventDefault();void flushBeforeClose();}});
+  app.on('before-quit',event=>{if(!closing){event.preventDefault();void flushBeforeClose();}});
   contents.setWindowOpenHandler(() => ({ action: 'deny' }));
   contents.on('will-navigate', event => event.preventDefault());
   contents.on('will-frame-navigate', event => event.preventDefault());

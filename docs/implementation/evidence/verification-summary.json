@@ -1,59 +1,59 @@
 {
-  "startedAt": "2026-10-29T05:35:04.289Z",
+  "startedAt": "2026-10-29T05:55:15.569Z",
   "node": "v24.21.0",
   "os": "Windows 11 Home China",
   "release": "10.0.26300",
-  "sourceSha256": "838cfda9cf45fa473f09dc0aa5999bde46c8166643a8ae6572a3e0973ca01ebd",
+  "sourceSha256": "5a4abc78457ea35c77301938123f38d4b557be99314d6bed19358eac623e5885",
   "steps": [
     {
       "command": "npm run typecheck",
       "exitCode": 0,
-      "durationMs": 3437,
+      "durationMs": 3634,
       "status": "passed"
     },
     {
       "command": "npm run test",
       "exitCode": 0,
-      "durationMs": 3184,
+      "durationMs": 8124,
       "status": "passed"
     },
     {
       "command": "npm run build",
       "exitCode": 0,
-      "durationMs": 2931,
+      "durationMs": 3171,
       "status": "passed"
     },
     {
       "command": "npm run native:build",
       "exitCode": 0,
-      "durationMs": 2640,
+      "durationMs": 2474,
       "status": "passed"
     },
     {
       "command": "npm run test:electron",
       "exitCode": 0,
-      "durationMs": 5313,
+      "durationMs": 5398,
       "status": "passed"
     },
     {
       "command": "npm run test:clipboard",
       "exitCode": 0,
-      "durationMs": 3654,
+      "durationMs": 3592,
       "status": "passed"
     },
     {
       "command": "npm run test:network",
       "exitCode": 0,
-      "durationMs": 17342,
+      "durationMs": 15260,
       "status": "passed"
     },
     {
       "command": "npm run test:offline",
       "exitCode": 0,
-      "durationMs": 12416,
+      "durationMs": 12539,
       "status": "passed"
     }
   ],
   "status": "passed",
-  "finishedAt": "2026-10-29T05:35:55.315Z"
+  "finishedAt": "2026-10-29T05:56:09.841Z"
 }
