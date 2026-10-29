@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Menu, protocol, session, screen, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, protocol, session, screen, dialog, Tray, nativeImage } from 'electron';
 import { randomUUID } from 'node:crypto';
 import { OrdinaryStore, type StoreOptions } from './ordinary-store';
 import { keys } from './ordinary-model';
@@ -34,7 +34,7 @@ export async function startApplication(config: ApplicationConfig): Promise<Runni
   let window: BrowserWindow | null = null;
   let secondCount = 0;
   app.on('second-instance', () => { secondCount++; if (window) { if (window.isMinimized()) window.restore(); window.show(); window.focus(); } });
-  app.on('window-all-closed', () => app.quit());
+  app.on('window-all-closed', () => { /* tray owns lifetime */ });
   await app.whenReady();
   const store = new OrdinaryStore(config.root,config.storeOptions);
   await store.open();
@@ -81,18 +81,46 @@ export async function startApplication(config: ApplicationConfig): Promise<Runni
       throw new Error();
     } catch {return {ok:false,code:'VALIDATION',userMessage:'请求参数无效。',retryable:false};}
   });
-  let closing=false; let waiting=false;
-  const flushBeforeClose=async ():Promise<void>=>{
-    if(waiting)return;waiting=true;
+  const uiFile=path.join(runtime,'ui-state.json');
+  let ui={version:1,guideSeen:false,closeSeen:false};
+  try {const v=JSON.parse(fs.readFileSync(uiFile,'utf8'));keys(v,['version','guideSeen','closeSeen']);if(v.version===1&&typeof v.guideSeen==='boolean'&&typeof v.closeSeen==='boolean')ui={version:1,guideSeen:v.guideSeen,closeSeen:v.closeSeen};}catch{/* UI markers alone reset. */}
+  const saveUI=():void=>{rejectLinks(uiFile);const temp=uiFile+'.tmp';rejectLinks(temp);const fd=fs.openSync(temp,'w');try{fs.writeFileSync(fd,JSON.stringify(ui));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}fs.renameSync(temp,uiFile);};
+  let tray:Tray|undefined;let trayError='';let closing=false;let waiting=false;
+  const show=():void=>{if(window?.isMinimized())window.restore();window?.show();window?.focus();};
+  const updateMenu=():void=>tray?.setContextMenu(Menu.buildFromTemplate([{label:'打开主窗口',click:show},{label:store.settings().reminderPause?'恢复提醒（调度后续实现）':'暂停提醒（调度后续实现）',enabled:store.state().mode==='ready',click:()=>{void store.saveSetting({baseRevision:store.state().revision,clientMutationId:randomUUID(),key:'reminderPause',value:!store.settings().reminderPause}).then(r=>{updateMenu();if(!r.ok){show();void dialog.showMessageBox(window!,{message:r.userMessage});}});}},{label:'彻底退出',click:()=>{void finish(true);}}]));
+  const finish=async(quit:boolean):Promise<void>=>{
+    if(waiting)return;
+    if(!quit&&!tray){show();await dialog.showMessageBox(window!,{message:'无法进入托盘',detail:trayError});return;}
+    waiting=true;
+    if(!quit&&!ui.closeSeen){const c=await dialog.showMessageBox(window!,{message:'关闭窗口将进入托盘',detail:'彻底退出会停止提醒；提醒调度尚未实现。',buttons:['返回应用','继续进入托盘'],defaultId:0,cancelId:0});if(c.response===0){waiting=false;return;}try{ui.closeSeen=true;saveUI();}catch{ui.closeSeen=false;waiting=false;return;}}
     const token=randomUUID();
-    const ok=await new Promise<boolean>(resolve=>{const timeout=setTimeout(()=>{ipcMain.removeListener('workstation:flushed',listener);resolve(false);},10000);const listener=(event:Electron.IpcMainEvent,r:unknown):void=>{if(event.sender!==contents||event.senderFrame!==contents.mainFrame)return;try{keys(r,['token','ok']);if(r.token!==token||typeof r.ok!=='boolean')return;clearTimeout(timeout);ipcMain.removeListener('workstation:flushed',listener);resolve(r.ok);}catch{}};ipcMain.on('workstation:flushed',listener);contents.send('workstation:flush',token);});
+    const ok=await new Promise<boolean>(resolve=>{
+      // Progress may legitimately exceed ten seconds. A dead renderer is distinguished by its lifecycle.
+      const done=(value:boolean):void=>{clearTimeout(timeout);ipcMain.removeListener('workstation:flushed',listener);resolve(value);};
+      const timeout=setTimeout(()=>done(false),120000);
+      const listener=(event:Electron.IpcMainEvent,r:unknown):void=>{if(event.sender!==contents||event.senderFrame!==contents.mainFrame)return;try{keys(r,['token','ok']);if(r.token===token&&typeof r.ok==='boolean')done(r.ok);}catch{}};
+      ipcMain.on('workstation:flushed',listener);contents.send('workstation:flush',token);
+    });
     await store.flush();waiting=false;
-    if(ok){closing=true;app.quit();return;}
-    const choice=await dialog.showMessageBox(window!,{type:'warning',message:'保存未完成',detail:'可重试保存、返回应用保留编辑，或确认放弃尚未保存的编辑并退出。',buttons:['重试','返回应用','放弃编辑并退出'],defaultId:1,cancelId:1});
-    if(choice.response===0)void flushBeforeClose();else if(choice.response===2){closing=true;app.quit();}
+    if(ok){if(quit){closing=true;tray?.destroy();app.quit();}else window?.hide();return;}
+    show();const c=await dialog.showMessageBox(window!,{message:'保存未完成',detail:'编辑仍保留。可重试、返回应用，或确认放弃编辑。',buttons:['重试','返回应用','放弃编辑并退出'],defaultId:1,cancelId:1});
+    if(c.response===0)void finish(quit);else if(c.response===2){closing=true;tray?.destroy();app.quit();}
   };
-  window.on('close',event=>{if(!closing){event.preventDefault();void flushBeforeClose();}});
-  app.on('before-quit',event=>{if(!closing){event.preventDefault();void flushBeforeClose();}});
+  try{const icon=nativeImage.createFromPath(path.join(__dirname,'../../assets/tray.png'));if(icon.isEmpty())throw Error('本地图标无法读取');tray=new Tray(icon);tray.setToolTip('Work Station · 未发布');tray.on('double-click',show);updateMenu();}catch(e){trayError=String(e);}
+  window.on('close',event=>{if(!closing){event.preventDefault();void finish(false);}});
+  app.on('before-quit',event=>{if(!closing){event.preventDefault();void finish(true);}});
+  ipcMain.handle('workstation:desktop',async(event,r:unknown)=>{
+    if(!authorized({senderId:event.sender.id,frameIsMain:event.senderFrame===contents.mainFrame,frameURL:event.senderFrame?.url??''},contents.id,documentURL))return {ok:false,code:'UNAUTHORIZED',userMessage:'此窗口没有调用权限。',retryable:false};
+    try{
+      keys(r,['action'],['baseRevision','clientMutationId','key','value']);
+      if(r.action==='settings'){keys(r,['action']);return {ok:true,revision:store.state().revision,data:{...store.settings(),...ui,readOnly:store.state().mode!=='ready',trayError,dataRoot:config.root,version:productVersion,launchAvailable:app.isPackaged,launchAtLogin:app.isPackaged&&app.getLoginItemSettings().openAtLogin}};}
+      if(r.action==='save'){const {action,...input}=r;const result=await store.saveSetting(input);updateMenu();return result;}
+      if(r.action==='guideSeen'){keys(r,['action']);if(store.state().mode!=='ready')throw Error();ui.guideSeen=true;saveUI();return {ok:true,data:{},revision:store.state().revision};}
+      if(r.action==='quit'){keys(r,['action']);void finish(true);return {ok:true,data:{},revision:store.state().revision};}
+      if(r.action==='launch'){keys(r,['action','value']);if(!app.isPackaged||store.state().mode!=='ready'||typeof r.value!=='boolean')throw Error();const old=app.getLoginItemSettings().openAtLogin;app.setLoginItemSettings({openAtLogin:r.value,path:process.execPath,args:[]});if(app.getLoginItemSettings().openAtLogin!==r.value){app.setLoginItemSettings({openAtLogin:old,path:process.execPath,args:[]});throw Error();}return {ok:true,data:{},revision:store.state().revision};}
+      throw Error();
+    }catch{return {ok:false,code:'VALIDATION',userMessage:'操作失败或参数无效。',retryable:false};}
+  });
   contents.setWindowOpenHandler(() => ({ action: 'deny' }));
   contents.on('will-navigate', event => event.preventDefault());
   contents.on('will-frame-navigate', event => event.preventDefault());

@@ -77,3 +77,6 @@ Electron 45 在首次使用时才下载运行时；显式安装命令便于将�
 私有仓库：[CN3H5/work-station](https://github.com/CN3H5/work-station)，交付PR：[安全骨架与验证 #1](https://github.com/CN3H5/work-station/pull/1)，工程源码提交：[8e7f7dc](https://github.com/CN3H5/work-station/commit/8e7f7dcf099cd6d9afe0ce4284d3046c0132fee5)。本阶段不提供正式安装包、数字签名或 Release。
 
 Step 4交付：[PR #3](https://github.com/CN3H5/work-station/pull/3)。接口、故障记录和当前源码性能见 [Step 4交接](docs/implementation/step4-handoff.md)。10万实体整文件保存约12秒，明确保留性能限制；当前不提供正式分发包或Release。
+
+## Step 5 初稿（待验收）
+已加入九页导航、基础设置和托盘生命周期，仍未达到T05完成标准。详见 [实现说明](docs/implementation/step5-ui-lifecycle.md)、[实际验证](docs/implementation/step5-validation.md)及[交接门槛](docs/implementation/step5-handoff.md)。T06尚未开始。

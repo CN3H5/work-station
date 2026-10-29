@@ -147,6 +147,30 @@ export class OrdinaryStore {
       await this.transaction(envelope(payload,this.current.revision+1,this.now().toISOString(),this.current.datasetId),canonical(this.current)); if(changed)await this.dailySnapshot(); return receipt;
     }));
   }
+  settings(): Record<string, Json> {
+    const b=this.current?.payload.business ?? emptyPayload().business;
+    const a=b.appearance as Entity, p=b.preferences as Entity;
+    return {mode:a.mode!,fontScale:a.fontScale!,reduceMotion:a.reduceMotion!,privacyNotification:p.privacyNotification!,hotkey:p.hotkey!,reminderPause:p.reminderPause!};
+  }
+  saveSetting(request: unknown): Promise<StoreResult<StorageState>> {
+    return this.serial(()=>this.result(async()=>{
+      keys(request,['baseRevision','clientMutationId','key','value']);
+      const {key,value}=request;
+      const valid=key==='mode'?['system','light','dark'].includes(String(value)):key==='fontScale'?[1,1.25,1.5].includes(Number(value))&&typeof value==='number':key==='hotkey'?typeof value==='string'&&(value===''||/^(?:Ctrl|Alt|Shift|Super)(?:\+(?:Ctrl|Alt|Shift|Super))*\+[A-Z0-9]$/.test(value)):['reduceMotion','privacyNotification','reminderPause'].includes(String(key))&&typeof value==='boolean';
+      if(!valid||!uuid(request.clientMutationId)||!Number.isSafeInteger(request.baseRevision))fail();
+      await this.writable();if(!this.current)fail('RECOVERY_REQUIRED');
+      const inputHash=hash(request), duplicate=this.current.payload.mutations.find(m=>m.id===request.clientMutationId);
+      if(duplicate){if(duplicate.hash!==inputHash)fail();return duplicate.result!;}
+      if(request.baseRevision!==this.current.revision)fail('CONFLICT');
+      const payload=structuredClone(this.current.payload);
+      const target=['mode','fontScale','reduceMotion'].includes(String(key))?'appearance':'preferences';
+      (payload.business[target] as Entity)[String(key)]=value as Json;
+      const receipt=this.receipt(payload);
+      payload.mutations=[...payload.mutations,{id:String(request.clientMutationId),hash:inputHash,revision:this.current.revision+1,result:receipt}].slice(-256);
+      await this.transaction(envelope(payload,this.current.revision+1,this.now().toISOString(),this.current.datasetId),canonical(this.current));
+      await this.dailySnapshot();return receipt;
+    }));
+  }
   private localDate(): string { const d=this.now(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
   private async readSnapshot(id:string):Promise<Snapshot> {
     if(id===PREVIOUS_ID) {const previous=decode(await this.read(this.file('ordinary','previous.json')));return {id,schemaVersion:1,createdAt:previous.savedAt,localDateAtCreation:previous.savedAt.slice(0,10),reason:'previous',snapshotHash:snapshotHash(previous.payload),business:previous.payload.business};}

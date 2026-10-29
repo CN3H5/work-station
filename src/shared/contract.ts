@@ -5,6 +5,7 @@ import type { StorageState, SnapshotItem, StoreResult } from '../shared/storage-
 export interface WorkStationAPI {
   getHealth(request: Record<string, never>): Promise<HealthResult>;
   storage(request: unknown): Promise<StoreResult<StorageState | SnapshotItem[]>>;
+  desktop(request: unknown): Promise<import('./storage-contract').StoreResult<Record<string, unknown>>>;
   onFlush(callback: () => Promise<boolean>): void;
 }
 

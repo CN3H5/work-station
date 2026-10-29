@@ -1,77 +1,71 @@
 {
-  "startedAt": "2026-10-29T06:19:49.188Z",
+  "startedAt": "2026-10-29T11:37:51.665Z",
   "node": "v24.21.0",
   "os": "Windows 11 Home China",
   "release": "10.0.26300",
-  "sourceSha256": "5beb73a6823b7c986ea53ad942cd03804645a7ec82165220d9450f71ace06474",
+  "sourceSha256": "ee986cde981ddba438143a334e8b7358e94772282e7e6411d0766698b027cf1b",
   "steps": [
     {
       "command": "npm run typecheck",
       "exitCode": 0,
-      "durationMs": 3856,
+      "durationMs": 5444,
       "status": "passed"
     },
     {
       "command": "npm run test",
       "exitCode": 0,
-      "durationMs": 26937,
+      "durationMs": 36556,
       "status": "passed"
     },
     {
       "command": "npm run test:storage",
       "exitCode": 0,
-      "durationMs": 27149,
+      "durationMs": 36997,
       "status": "passed"
     },
     {
       "command": "npm run build",
       "exitCode": 0,
-      "durationMs": 3483,
+      "durationMs": 4662,
       "status": "passed"
     },
     {
       "command": "npm run native:build",
       "exitCode": 0,
-      "durationMs": 2895,
+      "durationMs": 3680,
       "status": "passed"
     },
     {
       "command": "npm run test:electron",
       "exitCode": 0,
-      "durationMs": 5881,
+      "durationMs": 6659,
       "status": "passed"
     },
     {
       "command": "npm run test:clipboard",
       "exitCode": 0,
-      "durationMs": 3643,
+      "durationMs": 4366,
       "status": "passed"
     },
     {
       "command": "npm run test:network",
       "exitCode": 0,
-      "durationMs": 15366,
+      "durationMs": 16296,
       "status": "passed"
     },
     {
       "command": "npm run test:offline",
       "exitCode": 0,
-      "durationMs": 12525,
+      "durationMs": 13193,
       "status": "passed"
     },
     {
       "command": "npm run test:storage-ui-evidence",
-      "exitCode": 0,
-      "durationMs": 733,
-      "status": "passed"
-    },
-    {
-      "command": "npm run test:storage-perf",
-      "exitCode": 0,
-      "durationMs": 120772,
-      "status": "passed"
+      "exitCode": 1,
+      "durationMs": 974,
+      "status": "failed"
     }
   ],
-  "status": "passed",
-  "finishedAt": "2026-10-29T06:23:32.517Z"
+  "status": "failed",
+  "finishedAt": "2026-10-29T11:40:00.637Z"
 }

@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-29T06:20:58.958Z",
+  "createdAt": "2026-10-29T11:39:25.060Z",
   "runtime": {
     "node": "24.22.0",
     "acorn": "8.18.0",
@@ -62,6 +62,18 @@
     },
     {
       "name": "storage malicious parameters rejected and unauthorized window denied",
+      "status": "passed"
+    },
+    {
+      "name": "desktop settings whitelist and development autostart denial",
+      "status": "passed"
+    },
+    {
+      "name": "desktop unauthorized window cannot access settings or UI markers",
+      "status": "passed"
+    },
+    {
+      "name": "nine local pages retain drafts and expose recovery controls",
       "status": "passed"
     },
     {

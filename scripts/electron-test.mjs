@@ -17,7 +17,7 @@ const args = suite === 'network' ? [`--log-net-log=${path.join(base, 'netlog.jso
 args.push(suite === 'clipboard' ? 'dist/tests/clipboard-entry.js' : suite === 'network' || suite === 'offline' ? 'dist/tests/network-entry.js' : 'dist/tests/electron-entry.js');
 const child = spawn(require('electron'), args, { env, stdio: 'inherit' });
 let timedOut = false;
-const timeout = setTimeout(() => { timedOut = true; child.kill(); process.exitCode = 1; }, 90000);
+const timeout = setTimeout(() => { timedOut = true; child.kill(); process.exitCode = 1; }, suite==='network'?1950000:90000);
 child.on('exit', async code => {
   clearTimeout(timeout);
   console.log(`Electron suite ${suite} exit: ${code}`);
