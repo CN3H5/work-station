@@ -105,6 +105,8 @@ RuleRevision、ReminderPolicy、删除标记与所属规则组成关联组；历
 
 ## D-04 三类迁移文件
 
+T04 实施补充（2026-10-29）：快照封装增加单调 `sequence`，在系统时间回拨时按实际生成顺序保留最新 7 份；`createdAt` 与 `localDateAtCreation` 仍记录真实 UTC 和本地日期，不修改旧日期。每日成功日期单独以带哈希的 `ordinary/snapshot-days.json` 原子落盘，避免旧快照轮换后时间回拨重复消耗名额。事务 journal 的旧文件校验采用原始字节 SHA-256，以便保留损坏 JSON 的原件；业务 payload 的 contentHash 和 snapshotHash 定义不变。去重记录保存固定提交回执，快照/待清理警告由独立状态查询返回，避免重复请求得到后来版本的状态。
+
 | 格式 | 内容与入口 | 限制／恢复 |
 | --- | --- | --- |
 | .wsdata.json | kind=ordinary-backup，schemaVersion=1、exportedAt、datasetId、payload、SHA-256；普通数据/规则历史/标签分类/课表/外观/非敏感设置 | 明文提示；无vault字段、无图片base64、无会话token/路径/投递账本；合并或覆盖统一事务；哈希仅完整性校验，不保证来源可信 |

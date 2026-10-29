@@ -14,7 +14,7 @@ files.push('package.json','package-lock.json','tsconfig.json','tsconfig.renderer
 async function sourceHash(){const hash=createHash('sha256');for(const file of files.sort()){hash.update(file.replaceAll('\\','/')+'\0');hash.update((await fs.readFile(file,'utf8')).replaceAll('\r\n','\n')+'\0');}return hash.digest('hex');}
 const report={startedAt:new Date().toISOString(),node:process.version,os:os.version(),release:os.release(),sourceSha256:await sourceHash(),steps:[],status:'running'};
 await fs.mkdir('docs/implementation/evidence',{recursive:true});
-for(const name of ['typecheck','test','build','native:build','test:electron','test:clipboard','test:network','test:offline']){
+for(const name of ['typecheck','test','test:storage','build','native:build','test:electron','test:clipboard','test:network','test:offline','test:storage-ui-evidence','test:storage-perf']){
   console.log(`\nVERIFY ${name}`);
   const start=Date.now();
   const result=spawnSync(process.execPath,[npm,'run',name],{stdio:'inherit'});

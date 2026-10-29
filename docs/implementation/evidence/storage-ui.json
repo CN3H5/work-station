@@ -1,0 +1,29 @@
+{
+  "createdAt": "2026-10-29T06:13:48.148Z",
+  "status": "passed",
+  "method": "Windows computer-use via sky; actual Electron native dialogs; fictional ENOSPC fault",
+  "sources": {
+    "src/main/application.ts": "c0663d95a675b573ccdf0d6479cbad73974987533c48a8628806d07c51caff70",
+    "src/preload/index.ts": "d15c0967da2758df1e7cf7eb85b2c546cbf1d7654dd7a747d256ab69b8f0b56e",
+    "src/renderer/main.ts": "bc47b388253366117c643c62c4530b46b0bdeda5dec11b48279400509fd4ed71",
+    "src/shared/autosave.ts": "e1be56b96b000afa724902d5b7d2183f7aac8168fdb41e2cabd85adf7ac4e6db",
+    "src/tests/storage-ui-entry.ts": "240a2678355cc9a4f96044d3022812b3b895e2242b3807fd75e5ddac28c33752"
+  },
+  "results": [
+    {
+      "name": "return to application retains unchecked draft and failure state",
+      "status": "passed",
+      "root": "ca76c285-7106-420e-964a-532f2719bfb9"
+    },
+    {
+      "name": "retry after releasing fault commits revision 1 false and quits normally",
+      "status": "passed",
+      "root": "ca76c285-7106-420e-964a-532f2719bfb9"
+    },
+    {
+      "name": "confirm discard exits while revision remains 0 true",
+      "status": "passed",
+      "root": "55e72a47-82a4-4ff3-9a1e-7ea68f6bb948"
+    }
+  ]
+}

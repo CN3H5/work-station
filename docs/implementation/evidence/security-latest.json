@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-29T05:35:21.298Z",
+  "createdAt": "2026-10-29T06:20:58.958Z",
   "runtime": {
     "node": "24.22.0",
     "acorn": "8.18.0",
@@ -54,6 +54,14 @@
     },
     {
       "name": "untrusted window cannot call health capability",
+      "status": "passed"
+    },
+    {
+      "name": "storage restricted preference persists through actual IPC",
+      "status": "passed"
+    },
+    {
+      "name": "storage malicious parameters rejected and unauthorized window denied",
       "status": "passed"
     },
     {

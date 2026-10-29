@@ -1,6 +1,6 @@
 # Work Station
 
-日常学习工作台，产品版本 **1.0.0**。当前为**未发布的 Step 3 工程基础**：仅有本地状态窗口、安全能力桥、目录与单实例基础、构建和测试入口。笔记、DDL、课表、密码簿、保存、通知及备份均尚未实现。
+日常学习工作台，产品版本 **1.0.0**。当前为**未发布的 Step 4 存储实现**，包含普通数据事务、偏好自动保存、最近 7 份快照与确认恢复。笔记、DDL、课表、密码簿和备份导入导出页面尚未实现。验证证据及限制见 [Step 4 交接](docs/implementation/step4-handoff.md)。
 
 ## 启动与验证
 
@@ -21,8 +21,10 @@ Electron 45 在首次使用时才下载运行时；显式安装命令便于将�
 | --- | --- |
 | `npm run dev` | 编译并启动开发模式；Vite 仅绑定 `127.0.0.1:5173`；修改主进程/preload 后重启 |
 | `npm run typecheck` | 主进程、preload、共享契约及渲染端类型检查 |
-| `npm run verify` | 顺序执行本阶段8个验证命令，记录源码哈希及每步真实退出码；需先准备原生构建材料 |
-| `npm test` | 编译后在开发 Node 运行 7 项基础测试；含 Windows junction，用受限沙箱时可能需获准在沙箱外运行 |
+| `npm run verify` | 顺序执行11个验证命令，包含存储证据、原生界面证据绑定和性能；记录源码哈希与每步退出码 |
+| `npm test` | 编译后运行56项基础、存储与证据门槛测试，全部使用虚构数据 |
+| `npm run test:storage` | 生成45项存储测试的完整证据；缺失、失败或跳过均失败 |
+| `npm run test:storage-perf` | 对1万、10万实体和2 MiB笔记重复5次测量，结果绑定当前源码 |
 | `npm run build` | 编译主进程/preload，构建本地界面，生成资源白名单及内容哈希 |
 | `npm run start:preview` | 用生产资源和生产权限启动，数据仅存工作区 `.local/preview` |
 | `npm start` | 正式目录契约启动；需先构建，会使用 `%LOCALAPPDATA%\WorkStation`；日常验证请用 preview |
@@ -41,19 +43,24 @@ Electron 45 在首次使用时才下载运行时；显式安装命令便于将�
 
 ## 目录与安全边界
 
-主进程在 `src/main`，最小桥在 `src/preload`，本地页面在 `src/renderer`，契约在 `src/shared`，测试在 `src/tests`，构建配置在 `build`。生产桥仅有 `getHealth({})`，不提供读文件、写路径、打开 URL 或通用 IPC。
+主进程在 `src/main`，最小桥在 `src/preload`，本地页面在 `src/renderer`，契约在 `src/shared`，测试在 `src/tests`，构建配置在 `build`。生产桥提供健康状态、受限存储状态、单项偏好保存、快照列表/重试、确认恢复和退出 flush；不提供任意文件、路径、账本或完整文件写入能力。
 
-正式运行固定使用 `%LOCALAPPDATA%\WorkStation`，安装版和便携版同一用户共享目录和单实例锁。便携程序复制不会迁移个人数据。当前只创建：
+正式运行固定使用 `%LOCALAPPDATA%\WorkStation`，安装版和便携版同一用户共享目录和单实例锁。便携程序复制不会迁移个人数据。目录包括：
 
 - `owner.json`：产品与目录格式标识。未知目录、不兼容版本和链接目录拒绝打开，不重置数据。
 - `instance.lock`：进程占用标识；正常退出清理，崩溃后仅在确认原进程不存在时移除。PID 被复用时会保守拒绝，不能据此删除用户数据。
 - `runtime/`：Electron 会话缓存、偏好及诊断元数据。
+- `ordinary/`：current、previous、初始化标识、每日快照成功日期及必要的损坏原件。
+- `snapshots/`：最近7份普通快照；损坏项可识别，只有有效副本能恢复。
+- `transactions/`：独立事务保护副本，不参与快照轮换。
 
 开发目录为工作区 `.local/development`，预览目录为 `.local/preview`，自动化目录为 `.test-runs/<UUID>`，均被 Git 排除。测试不读取正式业务数据。基础测试只清理由本次创建且通过标记、路径和链接检查的目录；Electron 测试保留隔离产物便于排查，不会自动删除不明目录。
 
-当前没有应用内清除或数据备份。需要清理**测试目录**时先关闭本项目进程并核对绝对路径；不要将测试清理流程用于正式目录。T04 才实现数据事务、迁移、快照和恢复。
+当前没有应用内全部清除或普通备份导入导出。普通数据位于 `ordinary/current.json`，`previous.json` 保留一代；`snapshots` 最多保留 7 份有效业务快照，`transactions` 的事务保护副本不占名额。数据未加密，密码簿和图片文件不进入这些普通操作。不要将测试清理流程用于正式目录。
 
-普通业务数据未来默认明文；私有仓库不能替代加密。密码簿尚未实现，不能在本版本输入或保存真实密码。后续独立主密码不可找回，普通备份必须排除密码簿与背景图片本体；密码簿需独立加密备份，图片需独立迁移。未来应定期备份，设备整体保护可结合 Windows 磁盘加密。应用无法抵御已控制当前 Windows 会话的软件、键盘记录或录屏。
+偏好字段经 500ms 防抖保存，显示已保存、保存中、保存失败、冲突或只读恢复。失败保留草稿并可重试；正常退出前 flush，失败时可重试、返回应用或确认放弃。查看恢复副本可选择有效 previous 或快照，展示时间并二次确认。恢复保留可验证的本机提醒终态，恢复出的任务不补通知；损坏原件保留。普通快照失败另行提示并可重试。
+
+普通业务数据默认明文；私有仓库不能替代加密。密码簿尚未实现，不能在本版本输入或保存真实密码。后续独立主密码不可找回，普通备份必须排除密码簿与背景图片本体；密码簿需独立加密备份，图片需独立迁移。未来应定期备份，设备整体保护可结合 Windows 磁盘加密。应用无法抵御已控制当前 Windows 会话的软件、键盘记录或录屏。
 
 本阶段关闭窗口即退出；托盘、提醒和全局快捷键待后续阶段，不能依赖本版本提醒。未来完整产品仍遵循“彻底退出后不提醒”的既有决策。
 
@@ -68,3 +75,5 @@ Electron 45 在首次使用时才下载运行时；显式安装命令便于将�
 可复用流程位于 [.agents/skills/electron-offline-verification](.agents/skills/electron-offline-verification/SKILL.md)，只涵盖已经实际验证的工程基础方法。
 
 私有仓库：[CN3H5/work-station](https://github.com/CN3H5/work-station)，交付PR：[安全骨架与验证 #1](https://github.com/CN3H5/work-station/pull/1)，工程源码提交：[8e7f7dc](https://github.com/CN3H5/work-station/commit/8e7f7dcf099cd6d9afe0ce4284d3046c0132fee5)。本阶段不提供正式安装包、数字签名或 Release。
+
+Step 4交付：[PR #3](https://github.com/CN3H5/work-station/pull/3)。接口、故障记录和当前源码性能见 [Step 4交接](docs/implementation/step4-handoff.md)。10万实体整文件保存约12秒，明确保留性能限制；当前不提供正式分发包或Release。

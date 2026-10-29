@@ -1,0 +1,331 @@
+{
+  "createdAt": "2026-10-29T06:23:32.392Z",
+  "sourceSha256": "5beb73a6823b7c986ea53ad942cd03804645a7ec82165220d9450f71ace06474",
+  "status": "passed",
+  "runtime": "v24.21.0",
+  "repetitions": 5,
+  "units": "milliseconds; rss bytes (process cumulative, not isolated peak)",
+  "output": [
+    {
+      "name": "10k",
+      "samples": [
+        {
+          "validation": 103.67900000000003,
+          "saveIncludingDailySnapshot": 1525.6642,
+          "open": 224.7768000000001,
+          "snapshotCreation": 400.61889999999994,
+          "snapshotReuse": 305.5435000000002,
+          "validationMemory": 75055104,
+          "saveMemory": 218632192,
+          "openMemory": 230219776,
+          "snapshotMemory": 231804928,
+          "rss": 244277248
+        },
+        {
+          "validation": 77.7161000000001,
+          "saveIncludingDailySnapshot": 1226.1973000000003,
+          "open": 191.12540000000035,
+          "snapshotCreation": 336.64560000000074,
+          "snapshotReuse": 293.64739999999983,
+          "validationMemory": 244494336,
+          "saveMemory": 290369536,
+          "openMemory": 302612480,
+          "snapshotMemory": 311705600,
+          "rss": 324210688
+        },
+        {
+          "validation": 64.73329999999987,
+          "saveIncludingDailySnapshot": 1313.4504000000006,
+          "open": 180.64089999999942,
+          "snapshotCreation": 394.83330000000024,
+          "snapshotReuse": 304.6871000000001,
+          "validationMemory": 268787712,
+          "saveMemory": 288575488,
+          "openMemory": 297058304,
+          "snapshotMemory": 278761472,
+          "rss": 286339072
+        },
+        {
+          "validation": 69.45739999999932,
+          "saveIncludingDailySnapshot": 1232.7943000000005,
+          "open": 212.51419999999962,
+          "snapshotCreation": 424.03509999999915,
+          "snapshotReuse": 291.46120000000155,
+          "validationMemory": 284770304,
+          "saveMemory": 308682752,
+          "openMemory": 316432384,
+          "snapshotMemory": 279969792,
+          "rss": 287346688
+        },
+        {
+          "validation": 64.64310000000114,
+          "saveIncludingDailySnapshot": 1191.9629000000004,
+          "open": 210.0028000000002,
+          "snapshotCreation": 386.91109999999935,
+          "snapshotReuse": 332.6684000000005,
+          "validationMemory": 286236672,
+          "saveMemory": 307490816,
+          "openMemory": 314974208,
+          "snapshotMemory": 315715584,
+          "rss": 323252224
+        }
+      ],
+      "percentiles": {
+        "validation": {
+          "p50": 69.45739999999932,
+          "p95": 103.67900000000003
+        },
+        "saveIncludingDailySnapshot": {
+          "p50": 1232.7943000000005,
+          "p95": 1525.6642
+        },
+        "open": {
+          "p50": 210.0028000000002,
+          "p95": 224.7768000000001
+        },
+        "snapshotCreation": {
+          "p50": 394.83330000000024,
+          "p95": 424.03509999999915
+        },
+        "snapshotReuse": {
+          "p50": 304.6871000000001,
+          "p95": 332.6684000000005
+        },
+        "validationMemory": {
+          "p50": 268787712,
+          "p95": 286236672
+        },
+        "saveMemory": {
+          "p50": 290369536,
+          "p95": 308682752
+        },
+        "openMemory": {
+          "p50": 302612480,
+          "p95": 316432384
+        },
+        "snapshotMemory": {
+          "p50": 279969792,
+          "p95": 315715584
+        },
+        "rss": {
+          "p50": 287346688,
+          "p95": 324210688
+        }
+      }
+    },
+    {
+      "name": "100k",
+      "samples": [
+        {
+          "validation": 806.8263000000006,
+          "saveIncludingDailySnapshot": 12226.7134,
+          "open": 1683.1242999999995,
+          "snapshotCreation": 3528.1913999999997,
+          "snapshotReuse": 2980.3872000000047,
+          "validationMemory": 292835328,
+          "saveMemory": 670117888,
+          "openMemory": 843898880,
+          "snapshotMemory": 733831168,
+          "rss": 911732736
+        },
+        {
+          "validation": 843.4337999999989,
+          "saveIncludingDailySnapshot": 12044.075300000004,
+          "open": 1831.8142000000007,
+          "snapshotCreation": 3462.920299999998,
+          "snapshotReuse": 2916.426299999999,
+          "validationMemory": 616296448,
+          "saveMemory": 801435648,
+          "openMemory": 890372096,
+          "snapshotMemory": 819113984,
+          "rss": 925265920
+        },
+        {
+          "validation": 815.9761999999973,
+          "saveIncludingDailySnapshot": 11999.621699999996,
+          "open": 1833.0631999999896,
+          "snapshotCreation": 3442.792300000001,
+          "snapshotReuse": 3020.821100000001,
+          "validationMemory": 616439808,
+          "saveMemory": 1008680960,
+          "openMemory": 731766784,
+          "snapshotMemory": 753836032,
+          "rss": 649936896
+        },
+        {
+          "validation": 822.8178000000044,
+          "saveIncludingDailySnapshot": 11986.666200000007,
+          "open": 1717.0886000000028,
+          "snapshotCreation": 3492.3016999999963,
+          "snapshotReuse": 2933.2948000000033,
+          "validationMemory": 645246976,
+          "saveMemory": 753352704,
+          "openMemory": 844918784,
+          "snapshotMemory": 753569792,
+          "rss": 649773056
+        },
+        {
+          "validation": 750.2007999999914,
+          "saveIncludingDailySnapshot": 11920.13380000001,
+          "open": 1835.5191999999952,
+          "snapshotCreation": 3462.081600000005,
+          "snapshotReuse": 2889.150900000008,
+          "validationMemory": 644939776,
+          "saveMemory": 984543232,
+          "openMemory": 724070400,
+          "snapshotMemory": 734474240,
+          "rss": 838451200
+        }
+      ],
+      "percentiles": {
+        "validation": {
+          "p50": 815.9761999999973,
+          "p95": 843.4337999999989
+        },
+        "saveIncludingDailySnapshot": {
+          "p50": 11999.621699999996,
+          "p95": 12226.7134
+        },
+        "open": {
+          "p50": 1831.8142000000007,
+          "p95": 1835.5191999999952
+        },
+        "snapshotCreation": {
+          "p50": 3462.920299999998,
+          "p95": 3528.1913999999997
+        },
+        "snapshotReuse": {
+          "p50": 2933.2948000000033,
+          "p95": 3020.821100000001
+        },
+        "validationMemory": {
+          "p50": 616439808,
+          "p95": 645246976
+        },
+        "saveMemory": {
+          "p50": 801435648,
+          "p95": 1008680960
+        },
+        "openMemory": {
+          "p50": 843898880,
+          "p95": 890372096
+        },
+        "snapshotMemory": {
+          "p50": 753569792,
+          "p95": 819113984
+        },
+        "rss": {
+          "p50": 838451200,
+          "p95": 925265920
+        }
+      }
+    },
+    {
+      "name": "note-2MiB",
+      "samples": [
+        {
+          "validation": 1.5746999999973923,
+          "saveIncludingDailySnapshot": 254.61609999999928,
+          "open": 44.60409999999683,
+          "snapshotCreation": 67.56590000000142,
+          "snapshotReuse": 56.01060000000871,
+          "validationMemory": 840556544,
+          "saveMemory": 675504128,
+          "openMemory": 627675136,
+          "snapshotMemory": 680230912,
+          "rss": 648699904
+        },
+        {
+          "validation": 1.786500000001979,
+          "saveIncludingDailySnapshot": 232.38310000000638,
+          "open": 46.03549999999814,
+          "snapshotCreation": 74.71820000000298,
+          "snapshotReuse": 53.5173000000068,
+          "validationMemory": 650801152,
+          "saveMemory": 715952128,
+          "openMemory": 661295104,
+          "snapshotMemory": 713850880,
+          "rss": 676028416
+        },
+        {
+          "validation": 1.4562000000005355,
+          "saveIncludingDailySnapshot": 266.35579999999027,
+          "open": 45.1591000000044,
+          "snapshotCreation": 89.09369999999763,
+          "snapshotReuse": 62.19230000000971,
+          "validationMemory": 678129664,
+          "saveMemory": 671649792,
+          "openMemory": 620789760,
+          "snapshotMemory": 674820096,
+          "rss": 643813376
+        },
+        {
+          "validation": 1.5587999999988824,
+          "saveIncludingDailySnapshot": 246.81990000000224,
+          "open": 43.30079999999725,
+          "snapshotCreation": 74.11699999999837,
+          "snapshotReuse": 58.626699999993434,
+          "validationMemory": 645914624,
+          "saveMemory": 711065600,
+          "openMemory": 656408576,
+          "snapshotMemory": 708964352,
+          "rss": 671141888
+        },
+        {
+          "validation": 2.565199999997276,
+          "saveIncludingDailySnapshot": 253.51510000000417,
+          "open": 39.997400000007474,
+          "snapshotCreation": 65.69999999999709,
+          "snapshotReuse": 61.55529999999271,
+          "validationMemory": 673243136,
+          "saveMemory": 671334400,
+          "openMemory": 622981120,
+          "snapshotMemory": 675610624,
+          "rss": 644079616
+        }
+      ],
+      "percentiles": {
+        "validation": {
+          "p50": 1.5746999999973923,
+          "p95": 2.565199999997276
+        },
+        "saveIncludingDailySnapshot": {
+          "p50": 253.51510000000417,
+          "p95": 266.35579999999027
+        },
+        "open": {
+          "p50": 44.60409999999683,
+          "p95": 46.03549999999814
+        },
+        "snapshotCreation": {
+          "p50": 74.11699999999837,
+          "p95": 89.09369999999763
+        },
+        "snapshotReuse": {
+          "p50": 58.626699999993434,
+          "p95": 62.19230000000971
+        },
+        "validationMemory": {
+          "p50": 673243136,
+          "p95": 840556544
+        },
+        "saveMemory": {
+          "p50": 675504128,
+          "p95": 715952128
+        },
+        "openMemory": {
+          "p50": 627675136,
+          "p95": 661295104
+        },
+        "snapshotMemory": {
+          "p50": 680230912,
+          "p95": 713850880
+        },
+        "rss": {
+          "p50": 648699904,
+          "p95": 676028416
+        }
+      }
+    }
+  ]
+}

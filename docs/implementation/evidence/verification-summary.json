@@ -1,59 +1,77 @@
 {
-  "startedAt": "2026-10-29T05:35:04.289Z",
+  "startedAt": "2026-10-29T06:19:49.188Z",
   "node": "v24.21.0",
   "os": "Windows 11 Home China",
   "release": "10.0.26300",
-  "sourceSha256": "838cfda9cf45fa473f09dc0aa5999bde46c8166643a8ae6572a3e0973ca01ebd",
+  "sourceSha256": "5beb73a6823b7c986ea53ad942cd03804645a7ec82165220d9450f71ace06474",
   "steps": [
     {
       "command": "npm run typecheck",
       "exitCode": 0,
-      "durationMs": 3437,
+      "durationMs": 3856,
       "status": "passed"
     },
     {
       "command": "npm run test",
       "exitCode": 0,
-      "durationMs": 3184,
+      "durationMs": 26937,
+      "status": "passed"
+    },
+    {
+      "command": "npm run test:storage",
+      "exitCode": 0,
+      "durationMs": 27149,
       "status": "passed"
     },
     {
       "command": "npm run build",
       "exitCode": 0,
-      "durationMs": 2931,
+      "durationMs": 3483,
       "status": "passed"
     },
     {
       "command": "npm run native:build",
       "exitCode": 0,
-      "durationMs": 2640,
+      "durationMs": 2895,
       "status": "passed"
     },
     {
       "command": "npm run test:electron",
       "exitCode": 0,
-      "durationMs": 5313,
+      "durationMs": 5881,
       "status": "passed"
     },
     {
       "command": "npm run test:clipboard",
       "exitCode": 0,
-      "durationMs": 3654,
+      "durationMs": 3643,
       "status": "passed"
     },
     {
       "command": "npm run test:network",
       "exitCode": 0,
-      "durationMs": 17342,
+      "durationMs": 15366,
       "status": "passed"
     },
     {
       "command": "npm run test:offline",
       "exitCode": 0,
-      "durationMs": 12416,
+      "durationMs": 12525,
+      "status": "passed"
+    },
+    {
+      "command": "npm run test:storage-ui-evidence",
+      "exitCode": 0,
+      "durationMs": 733,
+      "status": "passed"
+    },
+    {
+      "command": "npm run test:storage-perf",
+      "exitCode": 0,
+      "durationMs": 120772,
       "status": "passed"
     }
   ],
   "status": "passed",
-  "finishedAt": "2026-10-29T05:35:55.315Z"
+  "finishedAt": "2026-10-29T06:23:32.517Z"
 }
