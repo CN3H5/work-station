@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "createdAt": "2026-10-30T12:31:12.616Z",
+  "sourceSha256": "ee986cde981ddba438143a334e8b7358e94772282e7e6411d0766698b027cf1b",
+  "method": "Actual Electron APIs and Chromium input events; not native Windows operator evidence",
+  "results": [
+    {
+      "name": "nine pages reachable using Chromium Tab and Enter",
+      "status": "passed"
+    },
+    {
+      "name": "candidate draft survives page switches and settings reload",
+      "status": "passed"
+    },
+    {
+      "name": "theme system preference follows nativeTheme updates",
+      "status": "passed"
+    },
+    {
+      "name": "100 125 150 percent fonts and 100 125 150 200 renderer zoom fit navigation",
+      "status": "passed"
+    },
+    {
+      "name": "long Chinese error remains focusable and wraps",
+      "status": "passed"
+    },
+    {
+      "name": "reduce motion explicit preference applies",
+      "status": "passed"
+    },
+    {
+      "name": "at ten seconds window stays visible and renderer reports saving",
+      "status": "passed"
+    },
+    {
+      "name": "quit waits beyond ten seconds and commits actual draft",
+      "status": "passed",
+      "elapsedMs": 33207
+    }
+  ],
+  "limits": [
+    "Controlled 11-second async storage fault barrier, not physical slow disk.",
+    "Renderer zoom is not Windows display scaling.",
+    "No tray menu or physical lock-screen input."
+  ],
+  "testRoot": "28b8a99e-f1a1-4403-88dd-043064b75508",
+  "harnessSha256": "714c55f3f07083ee34b2b96841fdb34d8529a198ef0a689a409a332f70487325"
+}
