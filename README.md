@@ -1,6 +1,6 @@
 # Work Station
 
-日常学习工作台，产品版本 **1.0.0**。当前为**未发布的 Step 5 桌面框架**，包含九页本地导航、基础设置、托盘、普通数据事务、最近 7 份快照与确认恢复。笔记、DDL、课表、密码簿和备份导入导出页面尚未实现。验证证据及限制见 [Step 4 交接](docs/implementation/step4-handoff.md)。
+日常学习工作台，产品版本 **1.0.0**。当前为**未发布的 Step 5 桌面框架**，包含九页本地导航、基础设置、托盘、普通数据事务、最近 7 份快照与确认恢复。笔记、DDL、课表、密码簿和备份导入导出页面尚未实现。验证证据及限制见 [Step 5 验收](docs/implementation/step5-validation.md)。
 
 ## 启动与验证
 
@@ -29,7 +29,7 @@ Electron 45 在首次使用时才下载运行时；显式安装命令便于将�
 | `npm run start:preview` | 用生产资源和生产权限启动，数据仅存工作区 `.local/preview` |
 | `npm start` | 正式目录契约启动；需先构建，会使用 `%LOCALAPPDATA%\WorkStation`；日常验证请用 preview |
 | `npm run test:electron` | 实际 Electron 安全、IPC、资源与单实例测试 |
-| `npm run test:network` | 实际进程启动日志、10 秒空闲及重新显示窗口的网络观察 |
+| `npm run test:network` | 实际进程启动日志与10秒启动/隐藏观察；设置 `WORKSTATION_NETWORK_LONG=1` 执行含恢复窗口的长期观察 |
 | `npm run test:offline` | 首个窗口加载前启用 Chromium 离线模拟；不修改 Windows 网卡 |
 | `npm run audit:deps` | 联网查询 npm 公告，记录日期、范围及锁文件 SHA-256 |
 | `npm run licenses` | 从实际安装包再生许可证原文和清单；完全本地执行 |
@@ -66,7 +66,7 @@ Electron 45 在首次使用时才下载运行时；显式安装命令便于将�
 
 ## 验证状态与限制
 
-当前在 Windows 11 家庭中文版 x64，版本 10.0.26300 上验证。Windows 10、安装版/便携版四组合、SmartScreen、30 分钟托盘待机与完整业务页均未执行。离线冷启动采用 Chromium 网络离线模拟，不代表物理断开网卡。网络结论只覆盖当前骨架及观察时段。
+当前在 Windows 11 家庭中文版 x64，版本 10.0.26300 上验证。Windows 10、安装版/便携版四组合、SmartScreen、系统100/125/150/200%逐档缩放与完整业务页均未执行。离线冷启动采用 Chromium 网络离线模拟，不代表物理断开网卡。长期托盘网络观测状态见Step 5验收记录；网络结论只覆盖当前桌面框架及观察时段。
 
 出现启动失败时，先确认 `npm run build` 成功、目录标识兼容、没有本项目已有进程及目录链接。应用不会把未知目录清空；不要删除个人资料以“修复”启动。Electron 控制台可能输出其自带图标色彩配置警告，不等于业务报错。
 
@@ -78,5 +78,5 @@ Electron 45 在首次使用时才下载运行时；显式安装命令便于将�
 
 Step 4交付：[PR #3](https://github.com/CN3H5/work-station/pull/3)。接口、故障记录和当前源码性能见 [Step 4交接](docs/implementation/step4-handoff.md)。10万实体整文件保存约12秒，明确保留性能限制；当前不提供正式分发包或Release。
 
-## Step 5 初稿（待验收）
-已加入九页导航、基础设置和托盘生命周期，仍未达到T05完成标准。详见 [实现说明](docs/implementation/step5-ui-lifecycle.md)、[实际验证](docs/implementation/step5-validation.md)及[交接门槛](docs/implementation/step5-handoff.md)。T06尚未开始。
+## Step 5
+九页导航、基础设置和托盘生命周期已完成当前Windows11环境验收；13步verify及独立30分钟联网观测通过。详见 [实现说明](docs/implementation/step5-ui-lifecycle.md)、[实际验证](docs/implementation/step5-validation.md)及[交接门槛](docs/implementation/step5-handoff.md)，交付PR为 [#4](https://github.com/CN3H5/work-station/pull/4)。T06尚未开始，不提供正式Release。

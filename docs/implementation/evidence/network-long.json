@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-29T12:25:33.000Z",
+  "createdAt": "2026-10-30T14:35:21.618Z",
   "runtime": {
     "node": "24.22.0",
     "acorn": "8.18.0",
@@ -62,9 +62,9 @@
     "uniquePids": 5,
     "types": [
       "Browser",
+      "GPU",
       "Utility",
-      "Tab",
-      "GPU"
+      "Tab"
     ],
     "samples": 7200
   },
@@ -87,15 +87,15 @@
     "socketEvents": 0,
     "httpHostnames": []
   },
-  "sourceSha256": "ee986cde981ddba438143a334e8b7358e94772282e7e6411d0766698b027cf1b",
-  "processStartedAt": "2026-10-29T11:54:02.3062470Z",
-  "processLifetimeThroughReportMs": 1890694,
+  "sourceSha256": "39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9",
+  "processStartedAt": "2026-10-30T14:04:15.4971650Z",
+  "processLifetimeThroughReportMs": 1866121,
   "supplement": {
-    "samples": 47,
+    "samples": 60,
     "tcpObservations": 0,
     "udpEndpointObservations": 0,
-    "firstAt": "2026-10-29T12:01:36.3547166Z",
-    "lastAt": "2026-10-29T12:25:30.3609680Z",
+    "firstAt": "2026-10-30T14:04:30.2194969Z",
+    "lastAt": "2026-10-30T14:34:56.0477137Z",
     "limits": "Supplement started after startup; periodic TCP and UDP endpoint snapshots do not capture all packets"
   }
 }

@@ -1,5 +1,7 @@
 # Step 5 交付验收检查
 
+> 历史记录：以下结论仅对应2026-10-29开工前。2026-10-30已实现T05，当前验收以 [step5-validation.md](step5-validation.md) 和 [step5-handoff.md](step5-handoff.md) 为准，保留本文而不改写当时事实。
+
 日期：2026-10-29。结论：**尚无可验收的 Step 5 交付，不具备进入 Step 6 的条件。**
 
 ## 核对范围

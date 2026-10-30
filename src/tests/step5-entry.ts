@@ -66,6 +66,13 @@ void(async()=>{
    breakSnapshots=false;await js('document.querySelector("#snapshot-retry").click()');await until(()=>js('!document.querySelector("#storage-warning").textContent.includes("快照未生成")'));
   });
 
+  await check('renderer loss is distinct from disk failure and preserves committed data',async()=>{
+   const filename=path.join(root,'ordinary/current.json');const before=fs.readFileSync(filename,'utf8');
+   await new Promise<void>((resolve,reject)=>{const timer=setTimeout(()=>reject(Error('CRASH_EVENT_TIMEOUT')),3000);wc.once('render-process-gone',()=>{clearTimeout(timer);resolve();});wc.forcefullyCrashRenderer();});
+   responses.push(1);app.quit();await delay(5500);
+   assert.ok(shown.some(message=>message==='界面失联，未收到保存确认'));assert.equal(win.isVisible(),true);assert.equal(fs.readFileSync(filename,'utf8'),before);
+  });
+
  }
  const {sourceHash}=await import(require('node:url').pathToFileURL(path.resolve('scripts/source-hash.mjs')).href);
  fs.writeFileSync(path.join(base,'report.json'),JSON.stringify({createdAt:new Date().toISOString(),sourceSha256:await sourceHash(),suite,results,limits:['Menu handlers invoked programmatically; dialog responses injected for automation.','Synthetic screen-lock exercises the event contract only; no vault or physical lock test.']},null,2));

@@ -1,0 +1,44 @@
+{
+  "createdAt": "2026-10-30T12:54:27.606Z",
+  "status": "passed",
+  "method": "Actual Windows computer-use sky input and native dialogs, fictional test-only ENOSPC, disk readback; current source rerun",
+  "sources": {
+    "src/main/application.ts": "03b38c241c4e34777006a2dfa53d39c13d9997e30871540bf23ab6c1e8ec3f1e",
+    "src/main/ui-state.ts": "d11e4b4e84c9d8c28767c5841c303ae6966a02fa0990c74555a3f3513ed44f25",
+    "src/main/ordinary-store.ts": "0d9a78e13f437b4154fe86be56623695a9d664470460fd065ddf2ca96bdb06b0",
+    "src/shared/contract.ts": "5dae47ad20baa7b9d7ba13f06f8e4e97b72d49a655cdf649bd85dad299e36cf6",
+    "src/preload/index.ts": "b0252df678c9eeeac9f1fc47489dfcfe706a626c18be6976c1d2398188a21d25",
+    "src/renderer/main.ts": "e07a29190d8f890e8334bf084a8e904ef5e49e9ce8926381e49bacc73e3e08bb",
+    "src/renderer/shell.ts": "79d95ba0d738cd1472461e6619d7d2a621318fc902b068b009f9b5c32a828ce4",
+    "src/renderer/navigation.ts": "be7b533a4cd9427ca8e36f0ab1af04eb9aa6d9e456aa681561ec9e4143edfe98",
+    "src/renderer/dialog.ts": "c9e91fbbf441f48d5ea369e3afd2321adb5967a81a5ec2d16d29ed914af7ea9e",
+    "src/renderer/style.css": "dd0b561749d2c4ae40e1f6bd41798ecfa38cfa26c6ff3e24b94b8a0e51aaeec8",
+    "src/renderer/index.html": "c08d4317c951d61da88f877ac93b60a959f0852be2ae23926b4c91b29326f13e",
+    "src/tests/storage-ui-entry.ts": "240a2678355cc9a4f96044d3022812b3b895e2242b3807fd75e5ddac28c33752"
+  },
+  "results": [
+    {
+      "name": "return to application retains candidate draft and failure state",
+      "status": "passed",
+      "root": "69d35512-7d65-4681-8124-0f1eced7b9bc",
+      "observed": "Ctrl+Shift+N entered with native input. Ctrl+S and quit failed. Native Return keeps visible draft; disk revision0 hotkey empty."
+    },
+    {
+      "name": "native retry after fault removed commits draft and quits",
+      "status": "passed",
+      "root": "69d35512-7d65-4681-8124-0f1eced7b9bc",
+      "observed": "Second native quit failure. Removed owned fail-save fixture. Shift+Tab selects Retry; Return executes. Normal exited marker, disk revision1 Ctrl+Shift+N."
+    },
+    {
+      "name": "discard failed candidate draft quits without overwriting prior commit",
+      "status": "passed",
+      "root": "69d35512-7d65-4681-8124-0f1eced7b9bc",
+      "observed": "Restart without guide, reads saved candidate. Native input edits Ctrl+Alt+N under injected fault. Native quit failure -> Tab selects discard -> Return. Normal exited marker, disk remains revision1 Ctrl+Shift+N."
+    }
+  ],
+  "limits": [
+    "No real autostart or privacy settings changed.",
+    "ENOSPC injection is not physical full disk.",
+    "Native tray menu and Chinese IME handoff are separate checks."
+  ]
+}

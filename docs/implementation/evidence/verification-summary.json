@@ -1,89 +1,89 @@
 {
-  "startedAt": "2026-10-30T12:54:28.452Z",
+  "startedAt": "2026-10-30T14:06:33.090Z",
   "node": "v24.21.0",
   "os": "Windows 11 Home China",
   "release": "10.0.26300",
-  "sourceSha256": "ad49fd9809237ececa9fb79bacc31439dc6e77c3f6590d50436d06b1122fc414",
+  "sourceSha256": "39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9",
   "steps": [
     {
       "command": "npm run typecheck",
       "exitCode": 0,
-      "durationMs": 4047,
+      "durationMs": 3943,
       "status": "passed"
     },
     {
       "command": "npm run test",
       "exitCode": 0,
-      "durationMs": 22545,
+      "durationMs": 25040,
       "status": "passed"
     },
     {
       "command": "npm run test:storage",
       "exitCode": 0,
-      "durationMs": 22007,
+      "durationMs": 24677,
       "status": "passed"
     },
     {
       "command": "npm run build",
       "exitCode": 0,
-      "durationMs": 3063,
+      "durationMs": 3348,
       "status": "passed"
     },
     {
       "command": "npm run native:build",
       "exitCode": 0,
-      "durationMs": 3073,
+      "durationMs": 2226,
       "status": "passed"
     },
     {
       "command": "npm run test:electron",
       "exitCode": 0,
-      "durationMs": 4877,
+      "durationMs": 4990,
       "status": "passed"
     },
     {
       "command": "npm run test:step5",
       "exitCode": 0,
-      "durationMs": 11150,
+      "durationMs": 16836,
       "status": "passed"
     },
     {
       "command": "npm run test:step5-runtime",
       "exitCode": 0,
-      "durationMs": 38395,
+      "durationMs": 38437,
       "status": "passed"
     },
     {
       "command": "npm run test:clipboard",
       "exitCode": 0,
-      "durationMs": 3324,
+      "durationMs": 3418,
       "status": "passed"
     },
     {
       "command": "npm run test:network",
       "exitCode": 0,
-      "durationMs": 17709,
+      "durationMs": 14738,
       "status": "passed"
     },
     {
       "command": "npm run test:offline",
       "exitCode": 0,
-      "durationMs": 11820,
+      "durationMs": 12054,
       "status": "passed"
     },
     {
       "command": "npm run test:storage-ui-evidence",
       "exitCode": 0,
-      "durationMs": 556,
+      "durationMs": 585,
       "status": "passed"
     },
     {
       "command": "npm run test:storage-perf",
       "exitCode": 0,
-      "durationMs": 127019,
+      "durationMs": 121446,
       "status": "passed"
     }
   ],
   "status": "passed",
-  "finishedAt": "2026-10-30T12:58:58.103Z"
+  "finishedAt": "2026-10-30T14:11:04.884Z"
 }

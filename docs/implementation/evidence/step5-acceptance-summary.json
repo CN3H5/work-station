@@ -1,0 +1,35 @@
+{
+  "createdAt": "2026-10-30T14:35:33.334Z",
+  "status": "passed-current-environment",
+  "sourceSha256": "39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9",
+  "verification": {
+    "commands": 13,
+    "status": "passed",
+    "report": "verification-summary.json"
+  },
+  "network": {
+    "report": "network-long.json",
+    "processLifetimeMs": 1866121,
+    "samples": 7200,
+    "osSamples": 60,
+    "nodeEvents": 0,
+    "chromeEvents": 0,
+    "launchSocketEvents": 0
+  },
+  "human": {
+    "rawAnswer": "全部通过",
+    "report": "step5-manual-user.json",
+    "wholeFinalSourceRun": false,
+    "scope": "Unchanged interaction files only; affected snapshot warning and native failed-quit paths rerun separately."
+  },
+  "nativeFailedQuit": {
+    "checks": 3,
+    "report": "storage-ui.json"
+  },
+  "limits": [
+    "Windows11 current environment only; display scale approximately 162 percent.",
+    "Windows100/125/150/200 scaling matrix not executed.",
+    "Windows10, packaged installer/portable/autostart, physical offline/full/slow disk and vault lock not executed.",
+    "No T06 business implementation or Release."
+  ]
+}

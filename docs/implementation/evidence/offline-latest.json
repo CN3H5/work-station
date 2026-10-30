@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-30T12:56:50.089Z",
+  "createdAt": "2026-10-30T14:09:02.390Z",
   "runtime": {
     "node": "24.22.0",
     "acorn": "8.18.0",
@@ -58,9 +58,9 @@
     "uniquePids": 4,
     "types": [
       "Browser",
-      "GPU",
       "Utility",
-      "Tab"
+      "Tab",
+      "GPU"
     ],
     "samples": 40
   },
