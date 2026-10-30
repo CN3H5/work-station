@@ -155,8 +155,8 @@ export class OrdinaryStore {
   saveSetting(request: unknown): Promise<StoreResult<StorageState>> {
     return this.serial(()=>this.result(async()=>{
       keys(request,['baseRevision','clientMutationId','key','value']);
-      const {key,value}=request;
-      const valid=key==='mode'?['system','light','dark'].includes(String(value)):key==='fontScale'?[1,1.25,1.5].includes(Number(value))&&typeof value==='number':key==='hotkey'?typeof value==='string'&&(value===''||/^(?:Ctrl|Alt|Shift|Super)(?:\+(?:Ctrl|Alt|Shift|Super))*\+[A-Z0-9]$/.test(value)):['reduceMotion','privacyNotification','reminderPause'].includes(String(key))&&typeof value==='boolean';
+      const {key,value}=request;if(typeof key!=='string')fail();
+      const valid=key==='mode'?typeof value==='string'&&['system','light','dark'].includes(value):key==='fontScale'?[1,1.25,1.5].includes(Number(value))&&typeof value==='number':key==='hotkey'?typeof value==='string'&&(value===''||/^(?:Ctrl|Alt|Shift|Super)(?:\+(?:Ctrl|Alt|Shift|Super))*\+[A-Z0-9]$/.test(value)&&new Set(value.split('+').slice(0,-1)).size===value.split('+').length-1):['reduceMotion','privacyNotification','reminderPause'].includes(String(key))&&typeof value==='boolean';
       if(!valid||!uuid(request.clientMutationId)||!Number.isSafeInteger(request.baseRevision))fail();
       await this.writable();if(!this.current)fail('RECOVERY_REQUIRED');
       const inputHash=hash(request), duplicate=this.current.payload.mutations.find(m=>m.id===request.clientMutationId);

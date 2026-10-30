@@ -1,5 +1,5 @@
 import {pages,locate} from './navigation';
-import {message} from './dialog';
+import {message,confirmAction} from './dialog';
 import type {WorkStationAPI} from '../shared/contract';
 declare global {interface Window {workStation:WorkStationAPI}}
 const nav=document.querySelector('#navigation')!,container=document.querySelector('#pages')!;
@@ -11,7 +11,7 @@ for(const [key,title] of Object.entries(pages)){
  if(!['settings','appearance'].includes(key)){const p=document.createElement('p');p.textContent=({notes:'T06 笔记和公式',memos:'T06 随手记',ddl:'T07/T08 任务与调度',vault:'T09 独立加密密码簿',schedule:'T10 课表'} as Record<string,string>)[key]+'：后续阶段实现。';section.append(p);}
 }
 const state=document.querySelector('#desktop-state')!,error=document.querySelector('#error')!;
-let revision=0,readonly=true;const dirty=new Map<string,unknown>();let flight:Promise<boolean>|undefined;
+let revision=0,observedRevision=0,readonly=true;const dirty=new Map<string,unknown>();let flight:Promise<boolean>|undefined;
 const controls=new Map<string,HTMLInputElement|HTMLSelectElement>();
 const privacy=document.querySelector<HTMLInputElement>('#privacy')!;controls.set('privacyNotification',privacy);privacy.onchange=()=>{dirty.set('privacyNotification',privacy.checked);state.textContent='有未保存设置';};
 function select(page:string,key:string,label:string,values:[string,string][]):void{
@@ -28,15 +28,32 @@ const guide='普通数据默认未加密。独立密码簿留 T09，主密码不
 function button(parent:Element,text:string,fn:()=>void):void{const b=document.createElement('button');b.textContent=text;b.onclick=fn;parent.append(b);}
 button(settings,'重看首次引导',()=>{void message('首次引导',guide);});
 button(settings,'保存设置 / 重试',()=>{void flushSettings();});
-button(settings,'重新读取并核对（保留草稿）',()=>{void reloadSettings();});
+button(settings,'重新读取并核对（保留草稿）',()=>{void reviewSettings();});
 button(settings,'彻底退出',()=>{void window.workStation.desktop({action:'quit'});});
 let data:Record<string,unknown>={};
 const dark=matchMedia('(prefers-color-scheme: dark)'),motion=matchMedia('(prefers-reduced-motion: reduce)');
 function apply():void{const v={...data,...Object.fromEntries(dirty)};document.documentElement.dataset.theme=v.mode==='system'?(dark.matches?'dark':'light'):String(v.mode);document.documentElement.dataset.motion=String(v.reduceMotion||motion.matches);document.documentElement.style.fontSize=`${Number(v.fontScale??1)*100}%`;}
 dark.onchange=apply;motion.onchange=apply;
 let loadGeneration=0;
-export async function reloadSettings():Promise<void>{const generation=++loadGeneration;const r=await window.workStation.desktop({action:'settings'});if(generation!==loadGeneration)return;if(!r.ok){error.textContent=r.userMessage;return;}if(r.revision<revision)return;revision=r.revision;data=r.data;readonly=Boolean(data.readOnly);for(const[k,c]of controls){c.disabled=readonly;if(c instanceof HTMLInputElement&&c.type==='checkbox')c.checked=Boolean(dirty.has(k)?dirty.get(k):data[k]);else c.value=String(dirty.has(k)?dirty.get(k):data[k]);}apply();if(data.trayError)error.textContent=String(data.trayError);}
-export function flushSettings():Promise<boolean>{if(flight)return flight;flight=(async()=>{if(readonly)return dirty.size===0;state.textContent='保存中，请等待；大数据可能超过 10 秒';for(const[key,value]of [...dirty]){const r=await window.workStation.desktop({action:'save',key,value,baseRevision:revision,clientMutationId:crypto.randomUUID()});if(!r.ok){error.textContent=r.code==='CONFLICT'?'保存冲突：请重新读取并核对。草稿已保留。':r.userMessage;state.textContent='保存失败，草稿已保留';return false;}revision=r.revision;if(dirty.get(key)===value)dirty.delete(key);}state.textContent=dirty.size?'有未保存设置':'已保存';await reloadSettings();return dirty.size===0;})().catch(()=>{state.textContent='本地连接失败，草稿已保留';return false;}).finally(()=>{flight=undefined;});return flight;}
+export async function reloadSettings():Promise<void>{const generation=++loadGeneration;const r=await window.workStation.desktop({action:'settings'});if(generation!==loadGeneration)return;if(!r.ok){error.textContent=r.userMessage;return;}if(r.revision<revision)return;observedRevision=r.revision;if(dirty.size===0)revision=r.revision;data=r.data;readonly=Boolean(data.readOnly);for(const[k,c]of controls){c.disabled=readonly;if(c instanceof HTMLInputElement&&c.type==='checkbox')c.checked=Boolean(dirty.has(k)?dirty.get(k):data[k]);else c.value=String(dirty.has(k)?dirty.get(k):data[k]);}apply();if(data.trayError)error.textContent=String(data.trayError);}
+async function reviewSettings():Promise<void>{
+ await reloadSettings();
+ const reviewedRevision=observedRevision;
+ const comparisons=[...dirty].map(([key,value])=>`${key}：磁盘值 ${String(data[key])}；草稿 ${String(value)}`).join('\n');
+ if(await confirmAction('核对最新设置',comparisons||'当前没有未保存草稿。','已核对，保留草稿继续')){revision=reviewedRevision;error.textContent='';state.textContent=dirty.size?'已核对，草稿待保存':'已读取最新设置';}
+}
+export function flushSettings():Promise<boolean>{if(flight)return flight;flight=(async()=>{if(readonly)return dirty.size===0;state.textContent='保存中，请等待；大数据可能超过 10 秒';for(const[key,value]of [...dirty]){const r=await window.workStation.desktop({action:'save',key,value,baseRevision:revision,clientMutationId:crypto.randomUUID()});if(!r.ok){error.textContent=r.code==='CONFLICT'?'保存冲突：请重新读取并核对。草稿已保留。':r.userMessage;state.textContent='保存失败，草稿已保留';return false;}revision=r.revision;if(dirty.get(key)===value)dirty.delete(key);}state.textContent=dirty.size?'有未保存设置':'已保存';error.textContent='';await reloadSettings();return dirty.size===0;})().catch(()=>{state.textContent='本地连接失败，草稿已保留';return false;}).finally(()=>{flight=undefined;});return flight;}
 document.addEventListener('keydown',e=>{if(e.isComposing||e.repeat||!(e.ctrlKey||e.metaKey))return;if(e.key.toLowerCase()==='s'){e.preventDefault();void flushSettings();}if(e.key.toLowerCase()==='k'&&!(e.target instanceof HTMLInputElement||e.target instanceof HTMLTextAreaElement)){e.preventDefault();void message('搜索 · 后续阶段实现','当前尚未接入业务搜索；快速记录留 T06。');}});
+const unsubscribe=window.workStation.onDesktopEvent(event=>{
+ if(event.kind==='reminder-state'){
+  if(!flight)void reloadSettings();
+ }else if(event.kind==='save-wait'){
+  state.textContent=event.status==='processing'?'保存中，请等待；大数据可能超过 10 秒':event.status==='unresponsive'?'界面失联，未收到保存确认':'保存失败，草稿已保留';
+ }
+ // T09 will subscribe separately to lock-request; no secrets are present in T05.
+});
+window.addEventListener('unload',unsubscribe,{once:true});
 window.addEventListener('focus',()=>{if(!flight)void reloadSettings();});
-locate('home');void reloadSettings().then(async()=>{const p=document.createElement('p');p.textContent=`版本 ${data.version} · 未发布 · 数据位置：${data.dataRoot}。许可证见 THIRD_PARTY_NOTICES.md 与 licenses；产品未授予公开分发许可。Ctrl+S 保存，Ctrl+K 搜索说明。自定义配色、背景和图片包留 T11。`;settings.append(p);const auto=document.createElement('button');auto.textContent='开机自启（需打包环境验证）';auto.disabled=!data.launchAvailable||readonly;auto.onclick=()=>{void window.workStation.desktop({action:'launch',value:!data.launchAtLogin}).then(r=>{if(!r.ok)error.textContent=r.userMessage;else void reloadSettings();});};settings.append(auto);if(!data.guideSeen){await message('首次引导',guide);await window.workStation.desktop({action:'guideSeen'});}});
+locate('home');void reloadSettings().then(async()=>{const p=document.createElement('p');p.textContent=`版本 ${data.version} · 未发布 · 数据位置：${data.dataRoot}。许可证见 THIRD_PARTY_NOTICES.md 与 licenses；产品未授予公开分发许可。Ctrl+S 保存，Ctrl+K 搜索说明。自定义配色、背景和图片包留 T11。`;settings.append(p);const auto=document.createElement('button');auto.textContent='开机自启（需打包环境验证）';auto.disabled=!data.launchAvailable||readonly;auto.onclick=()=>{void window.workStation.desktop({action:'launch',value:!data.launchAtLogin}).then(r=>{if(!r.ok)error.textContent=r.userMessage;else void reloadSettings();});};settings.append(auto);if(!data.guideSeen){await message('首次引导',guide);const marked=await window.workStation.desktop({action:'guideSeen'});if(!marked.ok)error.textContent='引导已显示，但本机提示标记保存失败；下次启动会再次提示。';}});
+
+const home=document.querySelector('[data-page=home]')!;button(home,'搜索（后续阶段实现）',()=>{void message('搜索 · 后续阶段实现','当前尚未接入业务搜索。');});button(home,'快速记录（T06 实现）',()=>{void message('快速记录 · T06 实现','当前尚未开发新建随手记，不会显示虚假保存结果。');});

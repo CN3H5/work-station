@@ -1,13 +1,33 @@
-# Step 5 页面、设置与生命周期（待验收）
+# Step 5 桌面框架与生命周期
 
-2026-10-29。此分支实现桌面框架初稿，尚未满足 Step 5 完成标准。
+本阶段只实现T05；完整笔记/公式/随手记留T06，DDL与调度留T07/T08，密码簿留T09，课表留T10，自定义背景及图片包留T11。没有模拟业务记录、虚假通知成功或全局快捷键注册。
 
-九页本地导航由 renderer/navigation.ts 控制，页面枚举与 UUID 记录定位不接受路径或 URL。主页默认展示；尚未实现的业务按 T06—T11 标明阶段。数据管理保留快照重试、候选查询与双重确认恢复。通用对话框使用原生 dialog，实现焦点约束、Esc 和关闭后恢复焦点。主题、字号和减少动态效果使用固定选项；reduceMotion=false 跟随系统媒体查询，true 始终减少，媒体查询变化不写回用户偏好。
+## 页面与设置
 
-新增 workstation:desktop 受限桥接：settings 查询相关 DTO 与本机状态；save 只允许 mode/fontScale/reduceMotion/privacyNotification/hotkey/reminderPause 单键写入，携带 baseRevision 和 clientMutationId，沿用 OrdinaryStore 串行事务、revision 冲突和持久去重；guideSeen 记录引导；quit 请求退出；launch 在打包环境调用固定 process.execPath，无网页路径/参数入口。恢复模式拒绝普通写入。启动注册以 OS 状态为准，恢复普通快照不会触发自启注册。安装/便携目标适配尚待分发验证。
+九页由 renderer/navigation.ts 的页面枚举切换；内部定位仅接受枚举与UUID。默认首页，窄窗紧凑导航、可滚动内容、固定可见焦点。renderer/dialog.ts 提供原生HTML模态对话框与焦点返回，恢复需要二次明确确认。数据管理保留快照候选、恢复与快照重试入口。
 
-runtime/ui-state.json 为独立 version=1 本机标记文件，包含 guideSeen/closeSeen。读取损坏只重置提示标记，不改普通业务；固定文件路径拒绝链接，以临时文件 fsync 后 rename 保存，不进入业务快照。未来全部清除必须覆盖 runtime/ui-state.json。
+workstation:desktop 的 settings 查询仅返回相关设置/本机DTO；save 接受baseRevision、clientMutationId、单个白名单key/value，拒绝数组键、错误值、重复修饰键以及任意路径/payload/账本。OrdinaryStore 串行合并单字段、持久去重、拒绝旧revision。草稿跨页保留；被动刷新不推进有草稿编辑器的基准revision；冲突需“重新读取并核对”展示磁盘值和草稿，用户确认后才能使用新revision保存。保存成功清除旧错误。
 
-托盘使用本地 PNG，提供打开、暂停/恢复（调度未实现）、彻底退出。关窗前先说明、再等待 renderer flush 与主进程队列；失败时窗口保留，提供重试/返回/放弃。退出销毁托盘。托盘创建失败禁止隐藏。二次启动 restore/show/focus 同一窗口。保存等待上限由10秒改为120秒，不提前报告成功；尚待实际超过10秒退出路径验收。
+主题system/light/dark、字号100/125/150%、privacyNotification、reduceMotion、hotkey候选与reminderPause均使用schemaVersion=1现有字段。reduceMotion=false跟随系统媒体查询，true始终减少；系统变化不写回用户偏好。主题与字号仅映射受控样式。Ctrl+S实际保存；Ctrl+K显示后续搜索说明；输入及组合输入保护，Ctrl+N不截获。设置页包含版本、未发布、数据位置、许可证与重看引导。
 
-已知未完成：T08 的主动状态推送、T09 隐藏/最小化/锁屏锁定事件契约尚未补齐；只提供提醒偏好及查询。Ctrl+S 调用真实设置保存，Ctrl+K 显示后续搜索说明；不注册全局快捷键，候选格式检查不等于系统冲突检查。
+## 本机标记
+
+main/ui-state.ts 管理 runtime/ui-state.json，固定version=1与guideSeen/closeSeen。主进程只允许两个明确标记动作；有大小上限、严格字段/重复键校验、拒绝链接、临时文件fsync后rename，持久化失败不推进内存标记。损坏仅重置提示，不重置业务数据；不进入普通快照或备份。未来全部清除必须覆盖该文件。
+
+## 托盘与保存退出
+
+本地打包PNG图标，菜单提供打开、暂停/恢复（明确调度未实现）、彻底退出。关窗先说明且默认返回，再flush渲染草稿与主进程队列后隐藏；失败保留窗口并提供重试、返回、确认放弃。托盘失败禁止隐藏。打开/双击及第二次启动恢复同一窗口，最小化先restore再show/focus。重复退出请求不重复提交，退出意图可升级隐藏请求。正常退出销毁托盘、移除powerMonitor监听及IPC处理器、释放目录锁。
+
+等待状态通过save-wait事件区分processing/unresponsive/failed。渲染失联与明确保存失败有不同原生提示；仍有主进程写入事务时继续等待，不把120秒完成确认窗口当作磁盘失败。不能提前显示已保存，也不取消事务校验。
+
+## T08/T09契约
+
+reminderState 查询返回 paused/revision/readOnly/scheduler='not-implemented'。onDesktopEvent 只订阅固定通道并返回注销函数；主进程只向授权主窗口推送reminder-state。保存及恢复会刷新菜单和状态；数据管理据此重新查询快照/容量警告。
+
+lock-request 包含reason=minimize/hide/screen-lock及递增sequence，分别来自窗口事件和powerMonitor。此契约供T09订阅，不是密码簿已锁定的确认，不传秘密正文。当前无密码簿处理。
+
+开机自启仅允许打包环境对固定process.execPath及空参数调用并校验OS状态；失败尝试回退原状态。开发/预览禁用，不注册Electron测试入口。普通数据恢复不调用系统注册。安装/便携真实行为仍是分发矩阵门槛。
+
+## 测试边界
+
+testTrayFailure与inspectDesktop只存在于受信的mode=test配置/返回对象，不经preload或IPC开放。自动化通过实际Electron调用菜单处理器、注入对话框响应和合成锁屏事件，不冒充Windows鼠标托盘操作或真实锁屏。源码摘要覆盖src/scripts/build/assets、验收脚本与native源码；PNG按原始字节计算。
