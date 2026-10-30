@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-10-30T14:07:50.029Z",
+  "sourceSha256": "39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9",
+  "suite": "step5-tray-failure",
+  "results": [
+    {
+      "name": "tray failure leaves a visible recoverable window",
+      "status": "passed"
+    },
+    {
+      "name": "tray failure still permits local navigation and settings",
+      "status": "passed"
+    }
+  ],
+  "limits": [
+    "Menu handlers invoked programmatically; dialog responses injected for automation.",
+    "Synthetic screen-lock exercises the event contract only; no vault or physical lock test."
+  ]
+}

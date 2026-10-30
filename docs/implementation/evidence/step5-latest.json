@@ -1,0 +1,51 @@
+{
+  "createdAt": "2026-10-30T14:07:48.239Z",
+  "sourceSha256": "39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9",
+  "suite": "step5",
+  "results": [
+    {
+      "name": "reminder query exposes only controlled status",
+      "status": "passed"
+    },
+    {
+      "name": "first close cancellation stays visible without marking seen",
+      "status": "passed"
+    },
+    {
+      "name": "confirmed close flushes and hides into a live tray",
+      "status": "passed"
+    },
+    {
+      "name": "actual tray double-click handler restores minimized same window",
+      "status": "passed"
+    },
+    {
+      "name": "tray menu pause and resume synchronize renderer and revision",
+      "status": "passed"
+    },
+    {
+      "name": "lock contract covers minimize hide and synthetic screen-lock without claiming vault lock",
+      "status": "passed"
+    },
+    {
+      "name": "unsubscribe removes callback without exposing arbitrary IPC",
+      "status": "passed"
+    },
+    {
+      "name": "dirty settings conflict cannot be cleared by a passive refresh",
+      "status": "passed"
+    },
+    {
+      "name": "committed settings expose snapshot failure and retry clears warning",
+      "status": "passed"
+    },
+    {
+      "name": "renderer loss is distinct from disk failure and preserves committed data",
+      "status": "passed"
+    }
+  ],
+  "limits": [
+    "Menu handlers invoked programmatically; dialog responses injected for automation.",
+    "Synthetic screen-lock exercises the event contract only; no vault or physical lock test."
+  ]
+}

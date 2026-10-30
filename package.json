@@ -1,7 +1,7 @@
 {
   "name": "work-station",
   "version": "1.0.0",
-  "description": "离线学习工作台：未发布的 Step 3 工程基础",
+  "description": "离线学习工作台：未发布的 Step 5 桌面框架",
   "private": true,
   "license": "UNLICENSED",
   "main": "dist/main/index.js",
@@ -16,6 +16,8 @@
     "test:storage": "npm run compile && node scripts/storage-evidence.mjs",
     "test:storage-perf": "node scripts/storage-perf.mjs",
     "test:storage-ui-evidence": "node scripts/ui-evidence-check.mjs",
+    "test:step5-runtime": "node docs/implementation/validation/launch-runtime.cjs",
+    "test:step5": "npm run compile && node scripts/electron-test.mjs step5 && node scripts/electron-test.mjs step5-tray-failure && node scripts/electron-test.mjs step5-recovery && node scripts/electron-test.mjs step5-future",
     "test:electron": "node scripts/electron-test.mjs",
     "test:clipboard": "node scripts/electron-test.mjs clipboard",
     "test:network": "node scripts/electron-test.mjs network",

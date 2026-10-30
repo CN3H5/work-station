@@ -8,7 +8,7 @@ if (result.status !== 0) process.exit(result.status ?? 1);
 await build({ configFile: 'build/vite.config.mjs' });
 const root = path.resolve('dist/renderer');
 const manifest = {};
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png' };
 async function visit(dir) {
   for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
     const file = path.join(dir, entry.name);

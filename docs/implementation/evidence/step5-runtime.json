@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "createdAt": "2026-10-30T14:08:32.183Z",
+  "sourceSha256": "39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9",
+  "environment": {
+    "os": "Windows 11 Home China",
+    "displayScale": 1.6200001239776611,
+    "workArea": {
+      "width": 1581,
+      "height": 944
+    }
+  },
+  "method": "Actual Electron APIs and Chromium input events; not native Windows operator evidence",
+  "results": [
+    {
+      "name": "nine pages reachable using Chromium Tab and Enter",
+      "status": "passed"
+    },
+    {
+      "name": "candidate draft survives page switches and settings reload",
+      "status": "passed"
+    },
+    {
+      "name": "theme system preference follows nativeTheme updates",
+      "status": "passed"
+    },
+    {
+      "name": "100 125 150 percent fonts and 100 125 150 200 renderer zoom fit navigation",
+      "status": "passed"
+    },
+    {
+      "name": "long Chinese error remains focusable and wraps",
+      "status": "passed"
+    },
+    {
+      "name": "system reduced motion media updates without persisting system state",
+      "status": "passed"
+    },
+    {
+      "name": "small viewport retains scroll access without horizontal overflow",
+      "status": "passed"
+    },
+    {
+      "name": "reduce motion explicit preference applies",
+      "status": "passed"
+    },
+    {
+      "name": "at ten seconds window stays visible and renderer reports saving",
+      "status": "passed"
+    },
+    {
+      "name": "quit waits beyond ten seconds and commits actual draft",
+      "status": "passed",
+      "elapsedMs": 33209
+    }
+  ],
+  "limits": [
+    "Controlled 11-second async storage fault barrier, not physical slow disk.",
+    "Renderer zoom is not Windows display scaling. CSS media override emulates OS motion preference, not an OS settings change.",
+    "No tray menu or physical lock-screen input."
+  ],
+  "testRoot": "460d4000-80f4-45ab-969e-3b78f85366c2",
+  "harnessSha256": "06e7a8ebe6f31eab817a337fc8bcc82bde7bb765649e354b5a2c6f397c08173b"
+}

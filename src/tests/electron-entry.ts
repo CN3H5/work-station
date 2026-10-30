@@ -40,7 +40,7 @@ void (async () => {
   });
   await check('renderer cannot access Node filesystem or generic IPC', async () => {
     const value = await wc.executeJavaScript('({require:typeof require, process:typeof process, bridge:Object.keys(window.workStation)})');
-    assert.equal(value.require, 'undefined'); assert.equal(value.process, 'undefined'); assert.deepEqual(value.bridge, ['getHealth','storage','onFlush']);
+    assert.equal(value.require, 'undefined'); assert.equal(value.process, 'undefined'); assert.deepEqual(value.bridge, ['onDesktopEvent','getHealth','desktop','storage','onFlush']);
   });
   await check('untrusted window cannot call health capability', async () => {
     const rogue = new BrowserWindow({ show: false, webPreferences: { preload: path.join(__dirname, '../preload/index.js'), sandbox: true, contextIsolation: true, nodeIntegration: false } });
@@ -55,6 +55,22 @@ void (async () => {
   await check('storage malicious parameters rejected and unauthorized window denied',async()=>{
     for(const expression of ['null','{action:"savePreference",payload:{}}','{action:"restore",id:"../../vault",baseRevision:0,confirmed:true}','{action:"state",path:"C:/x"}'])assert.equal((await wc.executeJavaScript(`window.workStation.storage(${expression})`)).ok,false);
     const rogue=new BrowserWindow({show:false,webPreferences:{preload:path.join(__dirname,'../preload/index.js'),sandbox:true,contextIsolation:true,nodeIntegration:false}});try{await rogue.loadURL('app://workstation/index.html');assert.equal((await rogue.webContents.executeJavaScript('window.workStation.storage({action:"state"})')).code,'UNAUTHORIZED');}finally{rogue.destroy();}
+  });
+  await check('desktop settings whitelist and development autostart denial',async()=>{
+    for(const request of [null,{action:'settings',path:'C:/x'},{action:'save',baseRevision:1,clientMutationId:'x',key:'path',value:'C:/x'},{action:'launch',value:true},{action:'save',baseRevision:1,clientMutationId:'x',key:['privacyNotification'],value:false}])assert.equal((await wc.executeJavaScript(`window.workStation.desktop(${JSON.stringify(request)})`)).ok,false);
+    const settings=await wc.executeJavaScript('window.workStation.desktop({action:"settings"})');assert.equal(settings.ok,true);assert.equal(settings.data.launchAvailable,false);
+    const saved=await wc.executeJavaScript(`window.workStation.desktop({action:'save',baseRevision:${settings.revision},clientMutationId:crypto.randomUUID(),key:'mode',value:'dark'})`);assert.equal(saved.ok,true);
+    assert.equal((await wc.executeJavaScript('window.workStation.desktop({action:"settings"})')).data.mode,'dark');
+  });
+  await check('desktop unauthorized window cannot access settings or UI markers',async()=>{
+    const rogue=new BrowserWindow({show:false,webPreferences:{preload:path.join(__dirname,'../preload/index.js'),sandbox:true,contextIsolation:true,nodeIntegration:false}});
+    try{await rogue.loadURL('app://workstation/index.html');for(const action of ['settings','guideSeen','quit'])assert.equal((await rogue.webContents.executeJavaScript(`window.workStation.desktop({action:'${action}'})`)).code,'UNAUTHORIZED');}finally{rogue.destroy();}
+  });
+  await check('nine local pages retain drafts and expose recovery controls',async()=>{
+    await wc.executeJavaScript('document.querySelector("dialog")?.close()');
+    const titles=await wc.executeJavaScript(`Array.from(document.querySelectorAll('[data-target]')).map(b=>{b.click();return document.querySelector('h1').textContent})`);
+    assert.equal(new Set(titles).size,9);assert.equal(wc.getURL(),running.documentURL);
+    assert.equal(await wc.executeJavaScript('Boolean(document.querySelector("#snapshots-refresh"))'),true);
   });
   await check('window.open is denied', async () => {
     const count = BrowserWindow.getAllWindows().length;

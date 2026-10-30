@@ -10,14 +10,14 @@ const base = path.resolve('.test-runs', id);
 await fs.mkdir(base, { recursive: true });
 await fs.writeFile(path.join(base, '.test-owned'), id, { flag: 'wx' });
 const suite = process.argv[2] ?? 'security';
-if (!['security','clipboard','network','offline'].includes(suite)) throw new Error('Unknown test suite');
+if (!['security','clipboard','network','offline','step5','step5-tray-failure','step5-recovery','step5-future'].includes(suite)) throw new Error('Unknown test suite');
 const env = { ...process.env, WORKSTATION_TEST_BASE: base, WORKSTATION_TEST_ID: id, WORKSTATION_TEST_SUITE: suite };
 delete env.ELECTRON_RUN_AS_NODE;
 const args = suite === 'network' ? [`--log-net-log=${path.join(base, 'netlog.json')}`, '--net-log-capture-mode=Default'] : [];
-args.push(suite === 'clipboard' ? 'dist/tests/clipboard-entry.js' : suite === 'network' || suite === 'offline' ? 'dist/tests/network-entry.js' : 'dist/tests/electron-entry.js');
+args.push(suite.startsWith('step5')?'dist/tests/step5-entry.js':suite === 'clipboard' ? 'dist/tests/clipboard-entry.js' : suite === 'network' || suite === 'offline' ? 'dist/tests/network-entry.js' : 'dist/tests/electron-entry.js');
 const child = spawn(require('electron'), args, { env, stdio: 'inherit' });
 let timedOut = false;
-const timeout = setTimeout(() => { timedOut = true; child.kill(); process.exitCode = 1; }, 90000);
+const timeout = setTimeout(() => { timedOut = true; child.kill(); process.exitCode = 1; }, suite==='network'?1950000:90000);
 child.on('exit', async code => {
   clearTimeout(timeout);
   console.log(`Electron suite ${suite} exit: ${code}`);

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Work Station</title><link rel="icon" href="/mark.svg" type="image/svg+xml"></head>
-<body><main><header><img src="/mark.svg" width="48" height="48" alt=""><div><p class="eyebrow">日常学习工作台</p><h1>Work Station</h1></div><span class="badge">工程基础 · 未发布</span></header>
-<section aria-labelledby="status-title"><h2 id="status-title">基础状态</h2><p id="status" role="status">正在检查本地连接…</p><button id="refresh" type="button">重新检查</button></section>
-<section><h2>普通数据存储</h2><p>普通数据和快照以明文保存在本机，不包含密码簿或图片文件。</p><label><input type="checkbox" id="privacy"> 系统提醒隐藏任务内容</label><p id="save-state" role="status">正在打开数据…</p><button id="retry" type="button">重试保存</button><button id="snapshot-retry" type="button">重试快照</button><button id="snapshots-refresh" type="button">查看恢复副本</button><p id="storage-warning" role="status"></p><ul id="snapshots"></ul></section>
-<section><h2>当前可用范围</h2><p>已实现普通存储及一个偏好字段的自动保存。笔记、DDL、密码簿、课表等业务页面留待后续阶段。</p></section>
-<footer>1.0.0 · 本地工程验证版本</footer></main><script type="module" src="./main.ts"></script></body></html>
+<body><nav aria-label="一级页面" id="navigation"></nav><main><header><img src="/mark.svg" width="48" height="48" alt=""><div><p class="eyebrow">日常学习工作台</p><h1>Work Station</h1></div><span class="badge">桌面框架 · 未发布</span></header>
+<section hidden data-page="home" aria-labelledby="status-title"><h2 id="status-title">基础状态</h2><p id="status" role="status">正在检查本地连接…</p><button id="refresh" type="button">重新检查</button></section>
+<section hidden data-page="data"><h2>普通数据存储</h2><p>普通数据和快照以明文保存在本机，不包含密码簿或图片文件。</p><label><input type="checkbox" id="privacy"> 系统提醒隐藏任务内容</label><button id="retry" type="button">重试保存</button><button id="snapshot-retry" type="button">重试快照</button><button id="snapshots-refresh" type="button">查看恢复副本</button><p id="storage-warning" role="status"></p><ul id="snapshots"></ul></section>
+<section hidden data-page="home"><h2>当前可用范围</h2><p>已实现普通存储、基础设置、九页导航与托盘。笔记、DDL、密码簿、课表等业务页面留待后续阶段。</p></section>
+<div id="pages"></div><p id="desktop-state" role="status"></p><pre id="error" tabindex="0" role="alert"></pre><footer>1.0.0 · 本地工程验证版本</footer></main><script type="module" src="./main.ts"></script></body></html>

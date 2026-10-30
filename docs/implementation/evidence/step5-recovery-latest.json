@@ -1,0 +1,27 @@
+{
+  "createdAt": "2026-10-30T14:07:51.883Z",
+  "sourceSha256": "39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9",
+  "suite": "step5-recovery",
+  "results": [
+    {
+      "name": "recovery UI disables settings but retains navigation and candidates",
+      "status": "passed"
+    },
+    {
+      "name": "ordinary writes and autostart remain rejected without changing damaged bytes",
+      "status": "passed"
+    },
+    {
+      "name": "prompt corruption resets only UI flags and guide can be seen again",
+      "status": "passed"
+    },
+    {
+      "name": "verified previous can restore corrupted ordinary data",
+      "status": "passed"
+    }
+  ],
+  "limits": [
+    "Menu handlers invoked programmatically; dialog responses injected for automation.",
+    "Synthetic screen-lock exercises the event contract only; no vault or physical lock test."
+  ]
+}

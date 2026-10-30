@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-29T06:21:30.454Z",
+  "createdAt": "2026-10-30T14:09:02.390Z",
   "runtime": {
     "node": "24.22.0",
     "acorn": "8.18.0",
@@ -58,16 +58,16 @@
     "uniquePids": 4,
     "types": [
       "Browser",
-      "GPU",
       "Utility",
-      "Tab"
+      "Tab",
+      "GPU"
     ],
     "samples": 40
   },
   "osSnapshot": null,
   "limits": [
     "Chromium offline emulation does not disable the Windows network adapter.",
-    "10-second observation covers only implemented skeleton; not 30-minute tray or future business features.",
+    "Duration is reported by processCoverage samples at 250 ms; short runs do not establish 30-minute tray behavior.",
     "TCP snapshot can miss short-lived sockets; Chromium netlog and main-process Node diagnostics supplement it.",
     "No remote utilityProcess or child Node runtime is part of the skeleton."
   ]

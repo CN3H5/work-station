@@ -1,4 +1,6 @@
-import { app, BrowserWindow, ipcMain, Menu, protocol, session, screen, dialog } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu, protocol, session, screen, dialog, Tray, nativeImage, powerMonitor } from 'electron';
+import { UIState } from './ui-state';
+import type { DesktopEvent, ReminderStatus } from '../shared/contract';
 import { randomUUID } from 'node:crypto';
 import { OrdinaryStore, type StoreOptions } from './ordinary-store';
 import { keys } from './ordinary-model';
@@ -8,14 +10,14 @@ import { HEALTH_CHANNEL, authorized, validHealthRequest, type HealthResult } fro
 import { prepareDataRoot, acquireRootLock, rejectLinks } from './data-root';
 import { CSP, resourceResponse, type ResourceManifest } from './resources';
 const productVersion = (JSON.parse(fs.readFileSync(path.join(__dirname, '../../package.json'), 'utf8')) as { version: string }).version;
-export interface ApplicationConfig { root: string; mode: 'production' | 'development' | 'test' | 'preview'; devURL?: string; beforeWindow?: () => Promise<void>; storeOptions?: StoreOptions }
-export interface RunningApplication { window: BrowserWindow; documentURL: string; secondInstances: () => number }
+export interface ApplicationConfig { root: string; mode: 'production' | 'development' | 'test' | 'preview'; devURL?: string; beforeWindow?: () => Promise<void>; storeOptions?: StoreOptions; testTrayFailure?:boolean }
+export interface RunningApplication { window: BrowserWindow; documentURL: string; secondInstances: () => number; inspectDesktop?:()=>{tray:Tray|undefined;menu:Menu|undefined} }
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { standard: true, secure: true, supportFetchAPI: true, corsEnabled: true } }]);
 app.commandLine.appendSwitch('disable-spell-checking');
 app.commandLine.appendSwitch('disable-background-networking');
 app.commandLine.appendSwitch('lang', 'zh-CN');
 export async function startApplication(config: ApplicationConfig): Promise<RunningApplication | null> {
-  if(config.storeOptions&&config.mode!=='test')throw new Error('TEST_OPTIONS_FORBIDDEN');
+  if((config.storeOptions||config.testTrayFailure)&&config.mode!=='test')throw new Error('TEST_OPTIONS_FORBIDDEN');
   if (config.mode !== 'development') for (const name of ['remote-debugging-port', 'remote-debugging-pipe', 'inspect', 'inspect-brk']) app.commandLine.removeSwitch(name);
   if (config.devURL && (app.isPackaged || config.mode !== 'development' || config.devURL !== 'http://127.0.0.1:5173/')) throw new Error('INVALID_DEV_SERVER');
   app.setName('Work Station');
@@ -34,8 +36,10 @@ export async function startApplication(config: ApplicationConfig): Promise<Runni
   let window: BrowserWindow | null = null;
   let secondCount = 0;
   app.on('second-instance', () => { secondCount++; if (window) { if (window.isMinimized()) window.restore(); window.show(); window.focus(); } });
-  app.on('window-all-closed', () => app.quit());
+  app.on('window-all-closed', () => { /* tray owns lifetime */ });
   await app.whenReady();
+  let activeWrites=0;
+  const trackedWrite=async<T>(operation:()=>Promise<T>):Promise<T>=>{activeWrites++;try{return await operation();}finally{activeWrites--;}};
   const store = new OrdinaryStore(config.root,config.storeOptions);
   await store.open();
   Menu.setApplicationMenu(null);
@@ -74,25 +78,69 @@ export async function startApplication(config: ApplicationConfig): Promise<Runni
       if (!request || typeof request!=='object') throw new Error();
       const r=request as Record<string,unknown>;
       if(r.action==='state') {keys(r,['action']);return {ok:true,data:store.state(),revision:store.state().revision};}
-      if(r.action==='savePreference') { keys(r,['action','baseRevision','clientMutationId','privacyNotification']); const {action,...input}=r;return await store.savePreference(input); }
+      if(r.action==='savePreference') { keys(r,['action','baseRevision','clientMutationId','privacyNotification']); const {action,...input}=r;return await trackedWrite(()=>store.savePreference(input)); }
       if(r.action==='snapshots') {keys(r,['action']);return {ok:true,data:await store.recoveryCandidates(),revision:store.state().revision};}
-      if(r.action==='retrySnapshot') {keys(r,['action']);return await store.retrySnapshot();}
-      if(r.action==='restore') {keys(r,['action','id','baseRevision','confirmed']); if(typeof r.id!=='string'||!Number.isSafeInteger(r.baseRevision)||r.confirmed!==true)throw new Error();return await store.restore(r.id,Number(r.baseRevision),true);}
+      if(r.action==='retrySnapshot') {keys(r,['action']);return await trackedWrite(()=>store.retrySnapshot());}
+      if(r.action==='restore') {keys(r,['action','id','baseRevision','confirmed']); if(typeof r.id!=='string'||!Number.isSafeInteger(r.baseRevision)||r.confirmed!==true)throw new Error();const result=await trackedWrite(()=>store.restore(String(r.id),Number(r.baseRevision),true));updateMenu();return result;}
       throw new Error();
     } catch {return {ok:false,code:'VALIDATION',userMessage:'请求参数无效。',retryable:false};}
   });
-  let closing=false; let waiting=false;
-  const flushBeforeClose=async ():Promise<void>=>{
-    if(waiting)return;waiting=true;
+  const ui=new UIState(runtime);
+  const emit=(event:DesktopEvent):void=>{if(!contents.isDestroyed())contents.send('workstation:desktop-event',event);};
+  const reminderState=():ReminderStatus=>({paused:Boolean(store.settings().reminderPause),revision:store.state().revision,readOnly:store.state().mode!=='ready',scheduler:'not-implemented'});
+  let lockSequence=0;
+  const lockRequest=(reason:'minimize'|'hide'|'screen-lock'):void=>emit({kind:'lock-request',reason,sequence:++lockSequence});
+  window.on('minimize',()=>lockRequest('minimize'));
+  window.on('hide',()=>lockRequest('hide'));
+  const screenLocked=():void=>lockRequest('screen-lock');
+  powerMonitor.on('lock-screen',screenLocked);
+  app.once('will-quit',()=>{powerMonitor.removeListener('lock-screen',screenLocked);for(const channel of ['workstation:desktop','workstation:storage',HEALTH_CHANNEL])ipcMain.removeHandler(channel);});
+  let tray:Tray|undefined;let trayMenu:Menu|undefined;let trayError='';let closing=false;let waiting=false;let pendingQuit=false;let rendererResponsive=true;
+  window.on('unresponsive',()=>{rendererResponsive=false;});window.on('responsive',()=>{rendererResponsive=true;});contents.on('render-process-gone',()=>{rendererResponsive=false;});
+  const show=():void=>{if(window?.isMinimized())window.restore();window?.show();window?.focus();};
+  const updateMenu=():void=>{emit({kind:'reminder-state',state:reminderState()});trayMenu=Menu.buildFromTemplate([{label:'打开主窗口',click:show},{label:store.settings().reminderPause?'恢复提醒（调度后续实现）':'暂停提醒（调度后续实现）',enabled:store.state().mode==='ready',click:()=>{void trackedWrite(()=>store.saveSetting({baseRevision:store.state().revision,clientMutationId:randomUUID(),key:'reminderPause',value:!store.settings().reminderPause})).then(r=>{updateMenu();if(!r.ok){show();void dialog.showMessageBox(window!,{message:r.userMessage});}});}},{label:'彻底退出',click:()=>{void finish(true);}}]);tray?.setContextMenu(trayMenu);};
+  const finish=async(quit:boolean):Promise<void>=>{
+    if(quit)pendingQuit=true;
+    if(waiting)return;
+    if(!quit&&!tray){show();await dialog.showMessageBox(window!,{message:'无法进入托盘',detail:trayError});return;}
+    waiting=true;
+    if(!quit&&!ui.read().closeSeen){const c=await dialog.showMessageBox(window!,{message:'关闭窗口将进入托盘',detail:'彻底退出会停止提醒；提醒调度尚未实现。',buttons:['返回应用','继续进入托盘'],defaultId:0,cancelId:0});if(c.response===0){waiting=false;if(pendingQuit)void finish(true);return;}try{ui.seen('closeSeen');}catch{waiting=false;show();await dialog.showMessageBox(window!,{type:'error',message:'无法保存首次关窗提示标记',detail:'窗口保持可见，请重试。'});return;}}
+    let disconnected=false;
+    const intent=(): 'hide'|'quit'=>pendingQuit?'quit':'hide';
+    emit({kind:'save-wait',status:'processing',intent:intent()});
     const token=randomUUID();
-    const ok=await new Promise<boolean>(resolve=>{const timeout=setTimeout(()=>{ipcMain.removeListener('workstation:flushed',listener);resolve(false);},10000);const listener=(event:Electron.IpcMainEvent,r:unknown):void=>{if(event.sender!==contents||event.senderFrame!==contents.mainFrame)return;try{keys(r,['token','ok']);if(r.token!==token||typeof r.ok!=='boolean')return;clearTimeout(timeout);ipcMain.removeListener('workstation:flushed',listener);resolve(r.ok);}catch{}};ipcMain.on('workstation:flushed',listener);contents.send('workstation:flush',token);});
-    await store.flush();waiting=false;
-    if(ok){closing=true;app.quit();return;}
-    const choice=await dialog.showMessageBox(window!,{type:'warning',message:'保存未完成',detail:'可重试保存、返回应用保留编辑，或确认放弃尚未保存的编辑并退出。',buttons:['重试','返回应用','放弃编辑并退出'],defaultId:1,cancelId:1});
-    if(choice.response===0)void flushBeforeClose();else if(choice.response===2){closing=true;app.quit();}
+    const ok=await new Promise<boolean>(resolve=>{
+      // Progress may legitimately exceed ten seconds. A dead renderer is distinguished by its lifecycle.
+      const done=(value:boolean):void=>{clearInterval(progress);clearTimeout(timeout);ipcMain.removeListener('workstation:flushed',listener);resolve(value);};
+      const progress=setInterval(()=>{if(!rendererResponsive||contents.isDestroyed()){disconnected=true;done(false);}else emit({kind:'save-wait',status:'processing',intent:intent()});},5000);
+      const expired=():void=>{if(activeWrites>0){emit({kind:'save-wait',status:'processing',intent:intent()});timeout=setTimeout(expired,5000);}else{disconnected=true;done(false);}};
+      let timeout=setTimeout(expired,120000);
+      const listener=(event:Electron.IpcMainEvent,r:unknown):void=>{if(event.sender!==contents||event.senderFrame!==contents.mainFrame)return;try{keys(r,['token','ok']);if(r.token===token&&typeof r.ok==='boolean')done(r.ok);}catch{}};
+      ipcMain.on('workstation:flushed',listener);contents.send('workstation:flush',token);
+    });
+    await store.flush();
+    if(ok){if(pendingQuit){closing=true;tray?.destroy();app.quit();}else window?.hide();waiting=false;return;}
+    emit({kind:'save-wait',status:disconnected?'unresponsive':'failed',intent:intent()});
+    show();const c=await dialog.showMessageBox(window!,{message:disconnected?'界面失联，未收到保存确认':'保存未完成',detail:disconnected?'无法确认尚未提交的编辑。已落盘的数据保留；可重试、返回应用或确认放弃未提交编辑。':'编辑仍保留。可重试、返回应用，或确认放弃编辑。',buttons:['重试','返回应用','放弃编辑并退出'],defaultId:1,cancelId:1});
+    waiting=false;
+    if(c.response===0)void finish(pendingQuit);else if(c.response===2){closing=true;tray?.destroy();app.quit();}else pendingQuit=false;
   };
-  window.on('close',event=>{if(!closing){event.preventDefault();void flushBeforeClose();}});
-  app.on('before-quit',event=>{if(!closing){event.preventDefault();void flushBeforeClose();}});
+  try{if(config.testTrayFailure)throw Error('测试注入：托盘创建失败');const icon=nativeImage.createFromPath(path.join(__dirname,'../../assets/tray.png'));if(icon.isEmpty())throw Error('本地图标无法读取');tray=new Tray(icon);tray.setToolTip('Work Station · 未发布');tray.on('double-click',show);updateMenu();}catch(e){trayError=String(e);}
+  window.on('close',event=>{if(!closing){event.preventDefault();void finish(false);}});
+  app.on('before-quit',event=>{if(!closing){event.preventDefault();void finish(true);}});
+  ipcMain.handle('workstation:desktop',async(event,r:unknown)=>{
+    if(!authorized({senderId:event.sender.id,frameIsMain:event.senderFrame===contents.mainFrame,frameURL:event.senderFrame?.url??''},contents.id,documentURL))return {ok:false,code:'UNAUTHORIZED',userMessage:'此窗口没有调用权限。',retryable:false};
+    try{
+      keys(r,['action'],['baseRevision','clientMutationId','key','value']);
+      if(r.action==='reminderState'){keys(r,['action']);return {ok:true,data:reminderState(),revision:store.state().revision};}
+      if(r.action==='settings'){keys(r,['action']);return {ok:true,revision:store.state().revision,data:{...store.settings(),...ui.read(),readOnly:store.state().mode!=='ready',trayError,dataRoot:config.root,version:productVersion,launchAvailable:app.isPackaged,launchAtLogin:app.isPackaged&&app.getLoginItemSettings().openAtLogin}};}
+      if(r.action==='save'){const {action,...input}=r;const result=await trackedWrite(()=>store.saveSetting(input));updateMenu();return result;}
+      if(r.action==='guideSeen'){keys(r,['action']);if(store.state().mode!=='ready')throw Error();ui.seen('guideSeen');return {ok:true,data:{},revision:store.state().revision};}
+      if(r.action==='quit'){keys(r,['action']);void finish(true);return {ok:true,data:{},revision:store.state().revision};}
+      if(r.action==='launch'){keys(r,['action','value']);if(!app.isPackaged||store.state().mode!=='ready'||typeof r.value!=='boolean')throw Error();const old=app.getLoginItemSettings().openAtLogin;app.setLoginItemSettings({openAtLogin:r.value,path:process.execPath,args:[]});if(app.getLoginItemSettings().openAtLogin!==r.value){app.setLoginItemSettings({openAtLogin:old,path:process.execPath,args:[]});throw Error();}return {ok:true,data:{},revision:store.state().revision};}
+      throw Error();
+    }catch{return {ok:false,code:'VALIDATION',userMessage:'操作失败或参数无效。',retryable:false};}
+  });
   contents.setWindowOpenHandler(() => ({ action: 'deny' }));
   contents.on('will-navigate', event => event.preventDefault());
   contents.on('will-frame-navigate', event => event.preventDefault());
@@ -104,9 +152,9 @@ export async function startApplication(config: ApplicationConfig): Promise<Runni
   ipcMain.handle(HEALTH_CHANNEL, (event, request: unknown): HealthResult => {
     if (!authorized({ senderId: event.sender.id, frameIsMain: event.senderFrame === contents.mainFrame, frameURL: event.senderFrame?.url ?? '' }, contents.id, documentURL)) return { ok: false, code: 'UNAUTHORIZED', userMessage: '此窗口没有调用权限。', retryable: false };
     if (!validHealthRequest(request)) return { ok: false, code: 'VALIDATION', userMessage: '请求参数无效。', retryable: false };
-    return { ok: true, data: { product: 'Work Station', version: productVersion, stage: '工程基础', mode: config.mode }, revision: 0 };
+    return { ok: true, data: { product: 'Work Station', version: productVersion, stage: '桌面框架', mode: config.mode }, revision: 0 };
   });
   contents.once('did-finish-load', () => window?.show());
   await window.loadURL(documentURL);
-  return { window, documentURL, secondInstances: () => secondCount };
+  return { window, documentURL, secondInstances: () => secondCount, ...(config.mode==='test'?{inspectDesktop:()=>({tray,menu:trayMenu})}:{}) };
 }

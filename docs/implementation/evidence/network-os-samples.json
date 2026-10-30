@@ -1,0 +1,1626 @@
+{
+  "samples": [
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:04:30.2194969Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:05:01.2527824Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:05:32.1494546Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:06:03.1031392Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:06:34.1121123Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:07:05.2695502Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:07:36.2311826Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:08:07.2054644Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:08:38.2991839Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:09:09.4613719Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:09:40.6961551Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:10:11.8749433Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:10:42.9767833Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:11:13.9227279Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:11:44.8234351Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:12:15.7559862Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:12:46.5614438Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:13:17.4742363Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:13:48.3421971Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:14:19.2451138Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:14:50.2607722Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:15:21.1942894Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:15:52.1888614Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:16:23.0875438Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:16:53.9586638Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:17:24.8922562Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:17:55.8086830Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:18:26.6292302Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:18:57.5067047Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:19:28.4511178Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:19:59.5089994Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:20:30.5181961Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:21:01.4806242Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:21:32.4178681Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:22:03.3178020Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:22:34.1819989Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:23:05.0752591Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:23:35.9900490Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:24:06.8662011Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:24:37.8161426Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:25:08.7463747Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:25:39.6379931Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:26:10.5816381Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:26:41.4627245Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:27:12.3794162Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:27:43.1990337Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:28:14.0360662Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:28:44.8808658Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:29:15.7728084Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:29:46.7181108Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:30:17.6662554Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:30:48.6599256Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:31:19.6479045Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:31:50.6110562Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:32:21.4475334Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:32:52.3432584Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:33:23.2607215Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:33:54.2040662Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:34:25.0818286Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    },
+    {
+      "udpEndpointOwners": [],
+      "tcp": [],
+      "at": "2026-10-30T14:34:56.0477137Z",
+      "processes": [
+        {
+          "ProcessId": 32328,
+          "ParentProcessId": 9648,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 8412,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 24932,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        },
+        {
+          "ProcessId": 40504,
+          "ParentProcessId": 32328,
+          "Name": "electron.exe"
+        }
+      ]
+    }
+  ],
+  "coverage": "Supplement started after startup; periodic TCP and UDP endpoint snapshots do not capture all packets",
+  "rootPid": 32328
+}
