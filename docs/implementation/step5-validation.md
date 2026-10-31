@@ -1,5 +1,7 @@
 # Step 5 验收记录
 
+> 2026-10-31复核修正后的验收状态见[修改报告](step5-review-fixes.md)。原冻结摘要对应修复前交付；新增页面回归已证明原用例遗漏提醒状态类型转换错误。修复后自动复测通过，人工证据绑定待更新，不将下文原整体通过结论套用于当前本地修复。
+
 最终源码已冻结为 `39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9`。2026-10-30 的完整 `npm run verify` 在14:06:33—14:11:04 UTC执行，13个命令全部退出0，摘要见 [verification-summary.json](evidence/verification-summary.json)。最终源码长期网络观测与当前环境人工操作均通过，T05当前Windows11环境验收通过。私有仓库交付以 [PR #4](https://github.com/CN3H5/work-station/pull/4) 实际合入状态为准。
 
 ## 必需项目与证据

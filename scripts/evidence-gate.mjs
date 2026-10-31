@@ -1,4 +1,4 @@
-const expected = { step5:10,'step5-tray-failure':2,'step5-recovery':4,'step5-future':4,security: 19, clipboard: 5, network: 5, offline: 4 };
+const expected = { step5:11,'step5-tray-failure':2,'step5-recovery':4,'step5-future':4,security: 19, clipboard: 5, network: 5, offline: 4 };
 const offlineSkipped = new Set(['Chromium external sockets', 'Windows descendant process/TCP query']);
 export function validateEvidence(suite, report) {
   if (!Object.hasOwn(expected, suite) || !Array.isArray(report?.results) || report.results.length !== expected[suite]) throw new Error('Incomplete evidence');

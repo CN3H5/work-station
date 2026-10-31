@@ -16,7 +16,7 @@ const controls=new Map<string,HTMLInputElement|HTMLSelectElement>();
 const privacy=document.querySelector<HTMLInputElement>('#privacy')!;controls.set('privacyNotification',privacy);privacy.onchange=()=>{dirty.set('privacyNotification',privacy.checked);state.textContent='有未保存设置';};
 function select(page:string,key:string,label:string,values:[string,string][]):void{
  const l=document.createElement('label');l.textContent=label;const c=document.createElement('select');for(const [v,t]of values){const o=document.createElement('option');o.value=v;o.textContent=t;c.append(o);}l.append(c);document.querySelector(`[data-page="${page}"]`)!.append(l);controls.set(key,c);
- c.onchange=()=>{dirty.set(key,key==='fontScale'?Number(c.value):key==='reduceMotion'?c.value==='true':c.value);state.textContent='有未保存设置';apply();};
+ c.onchange=()=>{dirty.set(key,key==='fontScale'?Number(c.value):['reduceMotion','reminderPause'].includes(key)?c.value==='true':c.value);state.textContent='有未保存设置';apply();};
 }
 select('appearance','mode','主题',[['system','跟随系统'],['light','浅色'],['dark','深色']]);
 select('appearance','fontScale','字号',[['1','100%'],['1.25','125%'],['1.5','150%']]);

@@ -1,5 +1,5 @@
 {
-  "createdAt": "2026-10-30T14:35:21.618Z",
+  "createdAt": "2026-10-31T09:39:25.057Z",
   "runtime": {
     "node": "24.22.0",
     "acorn": "8.18.0",
@@ -33,7 +33,7 @@
     "electron": "45.0.0",
     "chrome": "156.0.8078.48"
   },
-  "mode": "online startup + hide/reopen + 30-minute observation",
+  "mode": "online startup + hide/reopen + 10-second observation",
   "results": [
     {
       "name": "cold interface and resources available",
@@ -59,14 +59,14 @@
   "nodeEvents": [],
   "chromeEvents": {},
   "processCoverage": {
-    "uniquePids": 5,
+    "uniquePids": 4,
     "types": [
       "Browser",
       "GPU",
       "Utility",
       "Tab"
     ],
-    "samples": 7200
+    "samples": 40
   },
   "osSnapshot": {
     "exitCode": 0,
