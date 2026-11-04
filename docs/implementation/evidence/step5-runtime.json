@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "createdAt": "2026-10-30T14:08:32.183Z",
+  "createdAt": "2026-10-31T09:39:04.052Z",
   "sourceSha256": "39c5a57a0f8b9bf58ff9a270a99feac06aace2b30d31e7909ff70f71801445c9",
   "environment": {
     "os": "Windows 11 Home China",
@@ -51,7 +51,7 @@
     {
       "name": "quit waits beyond ten seconds and commits actual draft",
       "status": "passed",
-      "elapsedMs": 33209
+      "elapsedMs": 33261
     }
   ],
   "limits": [
@@ -59,6 +59,6 @@
     "Renderer zoom is not Windows display scaling. CSS media override emulates OS motion preference, not an OS settings change.",
     "No tray menu or physical lock-screen input."
   ],
-  "testRoot": "460d4000-80f4-45ab-969e-3b78f85366c2",
+  "testRoot": "040c9dfe-144c-414e-876d-0ad47ff24c92",
   "harnessSha256": "06e7a8ebe6f31eab817a337fc8bcc82bde7bb765649e354b5a2c6f397c08173b"
 }

@@ -50,6 +50,16 @@ void(async()=>{
   await check('confirmed close flushes and hides into a live tray',async()=>{responses.push(1);win.close();await until(async()=>!win.isVisible());assert.ok(running.inspectDesktop?.().tray&&!running.inspectDesktop().tray!.isDestroyed());assert.equal((await desktop('{action:"settings"}')).data.closeSeen,true);assert.equal(BrowserWindow.getAllWindows().length,1);});
   await check('actual tray double-click handler restores minimized same window',async()=>{win.minimize();running.inspectDesktop!().tray!.emit('double-click');await until(async()=>win.isVisible()&&!win.isMinimized());assert.equal(BrowserWindow.getAllWindows().length,1);});
   await check('tray menu pause and resume synchronize renderer and revision',async()=>{for(const paused of [true,false]){const item=running.inspectDesktop!().menu!.items[1]!;item.click(item,win,{} as Electron.KeyboardEvent);await until(async()=>(await desktop('{action:"reminderState"}')).data.paused===paused);await until(()=>js(`document.querySelector('[data-page=settings] select').value==='${paused}'`));assert.match(running.inspectDesktop!().menu!.items[1]!.label,paused?/恢复/:/暂停/);}});
+  await check('settings page pause and resume persist booleans and synchronize tray',async()=>{
+   for(const paused of [true,false]){
+    await js(`document.querySelector('[data-target=settings]').click();const control=document.querySelector('[data-page=settings] select');control.value='${paused}';control.dispatchEvent(new Event('change'));Array.from(document.querySelectorAll('button')).find(b=>b.textContent==='保存设置 / 重试').click()`);
+    await until(async()=>(await desktop('{action:"settings"}')).data.reminderPause===paused);
+    const disk=JSON.parse(fs.readFileSync(path.join(root,'ordinary/current.json'),'utf8'));
+    assert.equal(disk.payload.business.preferences.reminderPause,paused);
+    assert.match(running.inspectDesktop!().menu!.items[1]!.label,paused?/恢复/:/暂停/);
+    assert.equal(await js('document.querySelector("#error").textContent'),'');
+   }
+  });
   await check('lock contract covers minimize hide and synthetic screen-lock without claiming vault lock',async()=>{win.hide();win.show();powerMonitor.emit('lock-screen');const events:any[]=await js('window.__desktopEvents');for(const reason of ['hide','minimize','screen-lock'])assert.ok(events.some(e=>e.kind==='lock-request'&&e.reason===reason));assert.ok(events.filter(e=>e.kind==='lock-request').every(e=>Number.isSafeInteger(e.sequence)));});
   await check('unsubscribe removes callback without exposing arbitrary IPC',async()=>{const before=await js<number>('window.__desktopEvents.length');await js('window.__unsubscribe()');powerMonitor.emit('lock-screen');await delay(50);assert.equal(await js('window.__desktopEvents.length'),before);});
   await check('dirty settings conflict cannot be cleared by a passive refresh',async()=>{
